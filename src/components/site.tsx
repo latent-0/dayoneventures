@@ -152,7 +152,7 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Light nav (over the dark hero), only at the top of the home page.
+  // Home-page links sit over the photo; the wordmark remains on the paper panel.
   const light = pathname === '/' && !scrolled && !open
   const barBg = light ? 'bg-canvas' : 'bg-ink'
 
@@ -167,7 +167,7 @@ export function Header() {
       <Container width="wide">
         <div className="flex h-[4.75rem] items-center justify-between">
           <Link to="/" aria-label="Day One Ventures, home" onClick={() => setOpen(false)}>
-            <Wordmark tone={light ? 'light' : 'ink'} />
+            <Wordmark tone="ink" />
           </Link>
 
           <nav className="hidden items-center gap-9 md:flex">

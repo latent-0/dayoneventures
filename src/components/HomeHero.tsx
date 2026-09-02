@@ -10,8 +10,6 @@ import { Link } from '@tanstack/react-router'
 import { useRef } from 'react'
 import { Container } from './site'
 
-const HEADER = '4.75rem'
-
 /* Save the hero photograph here: public/hero.jpg */
 const HERO_IMAGE = '/hero.jpg'
 
@@ -67,7 +65,7 @@ export function HomeHero() {
     <section
       ref={ref}
       className="relative bg-canvas text-ink"
-      style={{ marginTop: `-${HEADER}`, height: '260vh' }}
+      style={{ height: '260vh' }}
     >
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         {/* Paper ground remains visible throughout the portal animation. */}
@@ -138,7 +136,7 @@ export function HomeHero() {
                 fontSize: 'clamp(2.9rem, 7.6vw, 6.6rem)',
                 lineHeight: 1.03,
                 letterSpacing: '-0.02em',
-                fontWeight: 500,
+                fontWeight: 300,
                 textShadow: 'none',
               }}
             >
@@ -208,7 +206,7 @@ function ReducedHero() {
   return (
     <section
       className="relative bg-canvas text-ink"
-      style={{ marginTop: `-${HEADER}`, minHeight: '100svh' }}
+      style={{ minHeight: '100svh' }}
     >
       <div className="absolute inset-0">
         <div className="absolute inset-y-0 right-0 w-1/2 overflow-hidden">
