@@ -39,7 +39,7 @@ function ContactPage() {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const subject = `Day One enquiry — ${form.org || form.name || 'new'}`
+    const subject = `Day One enquiry: ${form.org || form.name || 'new'}`
     const body = [
       `Name: ${form.name}`,
       `Organisation: ${form.org}`,
@@ -74,7 +74,7 @@ function ContactPage() {
               <p className="mt-6 max-w-md font-sans text-[1.05rem] leading-relaxed text-canvas/65">
                 Bring us a company you own, or one you are looking at. We will
                 map where the value is leaking and what it would take to build it
-                back — before anyone commits to anything.
+                back, before anyone commits to anything.
               </p>
             </Reveal>
             <Reveal delay={120}>
@@ -84,6 +84,14 @@ function ContactPage() {
                   <a href={`mailto:${EMAIL}`} className="link-line mt-2 inline-block font-display text-canvas" style={{ fontSize: '1.4rem' }}>
                     {EMAIL}
                   </a>
+                </div>
+                <div>
+                  <p className="eyebrow text-gold-soft">Office</p>
+                  <address className="mt-2 font-sans text-[0.98rem] not-italic leading-relaxed text-canvas/65">
+                    11 Broadway, Suite 615
+                    <br />
+                    New York, NY
+                  </address>
                 </div>
                 <div>
                   <p className="eyebrow text-gold-soft">Best for</p>

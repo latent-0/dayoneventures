@@ -13,7 +13,7 @@ const SITE = {
   name: 'Day One Ventures',
   url: 'https://www.dayoneventures.com',
   description:
-    'Day One Ventures is a private equity operating firm for lower-middle-market software companies. We diagnose value leakage, deploy revenue, margin and product engines, and build exit readiness — hands-on, from day one of ownership.',
+    'Day One Ventures is a private equity operating firm for lower middle market software companies. We diagnose value leakage, deploy revenue, margin and product engines, and build exit readiness, and we do it hands on from day one of ownership.',
 }
 
 const orgSchema = {
@@ -28,6 +28,14 @@ const orgSchema = {
   url: SITE.url,
   email: 'office@dayoneventures.com',
   slogan: 'Value, built from day one.',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '11 Broadway, Suite 615',
+    addressLocality: 'New York',
+    addressRegion: 'NY',
+    addressCountry: 'US',
+  },
+  areaServed: [{ '@type': 'Country', name: 'United States' }],
   knowsAbout: [
     'Private equity value creation',
     'Operating partner model',
@@ -65,7 +73,7 @@ export const Route = createRootRoute({
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { title: 'Day One Ventures · Operating-Partner Private Equity for Software' },
       { name: 'description', content: SITE.description },
-      { name: 'theme-color', content: '#0e1511' },
+      { name: 'theme-color', content: '#17120c' },
       {
         name: 'robots',
         content:

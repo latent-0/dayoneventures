@@ -13,7 +13,7 @@ export const Route = createFileRoute('/')({
       path: '/',
       title: 'Day One Ventures · Operating-Partner Private Equity for Software',
       description:
-        'Day One Ventures is an operating-partner private equity firm for lower-middle-market software. We diagnose value leakage, deploy revenue, margin and product engines, and build exit readiness — hands-on, from day one of ownership.',
+        'Day One Ventures is an operating-partner private equity firm for lower middle market software. We diagnose value leakage, deploy revenue, margin and product engines, and build exit readiness, and we do it hands on from day one of ownership.',
       keywords:
         'private equity, operating partner, value creation, lower middle market software, EBITDA expansion, multiple expansion, net revenue retention, exit readiness, buyout, SaaS private equity',
     }),
@@ -31,7 +31,7 @@ const ENGAGEMENTS = [
   {
     kicker: 'Structured',
     title: 'Minority & partnerships',
-    body: 'For founders and holders who want the operating engine without a full sale — a structured position paired with hands-on operating.',
+    body: 'For founders and holders who want the operating engine without a full sale. A structured position, paired with hands on operating.',
   },
   {
     kicker: 'For sponsors',
@@ -44,45 +44,18 @@ function Home() {
   return (
     <>
       <HomeHero />
-      <NetworkStrip />
       <HorizonScroll />
       <StatBlock />
       <TheThesis />
       <ApertureReveal />
       <FrameworkScroll />
+      <PlatformTeaser />
       <Engagements />
       <TheMoat />
       <WhereWeFit />
       <Faq />
       <ProofBand />
     </>
-  )
-}
-
-/* ---------------------------------------------------------------- */
-/*  Network strip                                                    */
-/* ---------------------------------------------------------------- */
-
-function NetworkStrip() {
-  return (
-    <section className="border-b border-line bg-canvas">
-      <Container width="wide" className="py-7 sm:py-8">
-        <Reveal>
-          <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:gap-6 sm:text-left">
-            <p className="eyebrow" style={{ letterSpacing: '0.2em' }}>
-              An operating-partner private equity firm
-            </p>
-            <div className="flex items-center gap-4 font-display text-ink" style={{ fontSize: '1.05rem' }}>
-              <span>Software</span>
-              <span className="text-line-strong">·</span>
-              <span>Data</span>
-              <span className="text-line-strong">·</span>
-              <span>AI-native</span>
-            </div>
-          </div>
-        </Reveal>
-      </Container>
-    </section>
   )
 }
 
@@ -121,11 +94,10 @@ function TheThesis() {
               </p>
               <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
                 We work the other way. We grow earnings by rebuilding the revenue
-                and margin engines, and we grow the multiple by making the growth
-                durable and diligence-proof. Both are engineered, not hoped for —
-                and both start on day one, not at the exit. Advice handed to a
-                management team rarely closes that gap. Ownership of the work
-                does.
+                and margin engines, and we grow the multiple by making that growth
+                durable enough to survive diligence. We engineer both, and both
+                start on day one rather than at the exit. Advice handed to a
+                management team rarely closes that gap. Owning the work does.
               </p>
             </Reveal>
           </div>
@@ -151,8 +123,8 @@ function Engagements() {
                 Structured to the outcome, not the fee.
               </h2>
               <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">
-                Three ways to work together — but only one operating standard
-                behind them.
+                Three ways to work together, with one operating standard behind
+                all of them.
               </p>
             </Reveal>
           </div>
@@ -190,6 +162,82 @@ function Engagements() {
 }
 
 /* ---------------------------------------------------------------- */
+/*  Platform teaser (the captive build capability)                  */
+/* ---------------------------------------------------------------- */
+
+const GROUP = [
+  {
+    name: 'Day One Technologies',
+    role: 'Technology execution, owned',
+    href: 'https://day1tech.com',
+    display: 'day1tech.com',
+  },
+  {
+    name: 'DayOneX',
+    role: 'Enterprise AI and platform systems',
+    href: 'https://dayonex.org',
+    display: 'dayonex.org',
+  },
+]
+
+function PlatformTeaser() {
+  return (
+    <section className="relative overflow-hidden border-t border-line bg-night text-canvas">
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="blob blob-orange animate-blob" style={{ width: 540, height: 540, left: '-8%', top: '-16%', opacity: 0.4 }} />
+        <div className="blob blob-amber animate-blob" style={{ width: 420, height: 420, right: '4%', bottom: '-18%', opacity: 0.26, animationDelay: '5s' }} />
+      </div>
+      <Container className="relative py-24 sm:py-32">
+        <div className="grid gap-14 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <Reveal>
+              <Eyebrow className="eyebrow-light">The unfair advantage</Eyebrow>
+              <h2 className="text-display-md mt-6 text-canvas">
+                We own the build, not just the thesis.
+              </h2>
+              <p className="mt-6 max-w-md font-sans text-[1.05rem] leading-relaxed text-canvas/65">
+                Where other firms hire consultants, we deploy our own technology
+                group. It rebuilds the product, moves delivery offshore, and ships
+                the AI and data work that turns the plan into a bigger number.
+              </p>
+              <Link to="/platform" className="arrow-link link-line mt-7 inline-block font-sans text-[0.95rem] text-gold-soft">
+                Explore the platform <span className="arrow">→</span>
+              </Link>
+            </Reveal>
+          </div>
+
+          <div className="md:col-span-6 md:col-start-7">
+            <div className="grid gap-5 sm:grid-cols-2">
+              {GROUP.map((c, i) => (
+                <Reveal key={c.name} delay={i * 90}>
+                  <a
+                    href={c.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="card-lift group flex h-full flex-col justify-between rounded-2xl border border-night-line bg-night-2 p-7"
+                  >
+                    <div>
+                      <p className="eyebrow text-gold-soft">{c.role}</p>
+                      <h3 className="mt-3 font-display text-canvas transition-colors group-hover:text-gold-soft" style={{ fontSize: '1.5rem', fontWeight: 500 }}>
+                        {c.name}
+                      </h3>
+                    </div>
+                    <span className="mt-8 inline-flex items-center gap-2 font-sans text-[0.86rem] text-canvas/60">
+                      {c.display}
+                      <span className="text-gold-soft">→</span>
+                    </span>
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+/* ---------------------------------------------------------------- */
 /*  The moat                                                         */
 /* ---------------------------------------------------------------- */
 
@@ -203,18 +251,18 @@ function TheMoat() {
         <Reveal delay={90}>
           <blockquote className="mt-8">
             <p className="font-display text-ink" style={{ fontSize: 'clamp(1.7rem,3.4vw,2.75rem)', lineHeight: 1.16 }}>
-              “Every deal adds to a proprietary operating library — diagnostics,
-              playbooks, and margin levers built from real ownership. It isn’t
-              patentable. It compounds like it is.”
+              “Every deal we do adds to a private library of diagnostics,
+              playbooks and margin levers, all built from real ownership. No one
+              can buy it, and no competitor can shortcut it.”
             </p>
           </blockquote>
         </Reveal>
         <Reveal delay={160}>
           <p className="mx-auto mt-8 max-w-xl font-sans text-[1.02rem] leading-relaxed text-ink-60">
-            Operating the whole business ourselves is not just cleaner. It
-            compounds. What we learn expanding the value of one company makes the
-            next one faster — and that library can’t be replicated by reading a
-            deck or hiring one specialist.
+            Running the whole business ourselves is cleaner to buy, and it also
+            compounds. What we learn growing the value of one company makes the
+            next one faster, and that library cannot be rebuilt by reading a deck
+            or hiring a single specialist.
           </p>
         </Reveal>
         <Reveal delay={220}>
@@ -240,6 +288,10 @@ const FIT = [
 function WhereWeFit() {
   return (
     <section className="relative overflow-hidden border-t border-line bg-night text-canvas" id="fit">
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="blob blob-orange animate-blob" style={{ width: 460, height: 460, right: '-6%', top: '-10%', opacity: 0.35 }} />
+        <div className="blob blob-deep animate-blob" style={{ width: 420, height: 420, left: '-8%', bottom: '-14%', opacity: 0.3, animationDelay: '6s' }} />
+      </div>
       <Container className="relative py-24 sm:py-32">
         <div className="grid gap-14 md:grid-cols-12">
           <div className="md:col-span-4">
@@ -283,11 +335,11 @@ function WhereWeFit() {
 const FAQ_ITEMS = [
   {
     q: 'What is Day One Ventures?',
-    a: 'Day One Ventures is an operating-partner private equity firm for lower-middle-market software companies. One team owns value creation end to end — diagnosing the business, running the revenue, margin and product engines, and building exit readiness from the first day of ownership.',
+    a: 'Day One Ventures is an operating-partner private equity firm for lower middle market software companies. One team owns value creation end to end. We diagnose the business, run the revenue, margin and product engines, and build exit readiness from the first day of ownership.',
   },
   {
     q: 'How is this different from a traditional PE firm?',
-    a: 'Traditional firms underwrite a deal and hand a plan to management. We operate the plan ourselves. Value creation is not a workstream we outsource to advisors — it is the entire business we are in.',
+    a: 'Traditional firms underwrite a deal and hand a plan to management. We operate the plan ourselves. Value creation is not a workstream we outsource to advisors. It is the entire business we are in.',
   },
   {
     q: 'What does the four-phase framework do?',
@@ -299,7 +351,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'How do you measure value creation?',
-    a: 'By EBITDA growth and multiple expansion — traced through net revenue retention, gross margin, Rule-of-40, and a diligence-grade data room that stands up at exit.',
+    a: 'By EBITDA growth and multiple expansion, traced through net revenue retention, gross margin, Rule of 40, and a diligence grade data room that stands up at exit.',
   },
   {
     q: 'Do you only do control buyouts?',
@@ -353,18 +405,22 @@ function Faq() {
 function ProofBand() {
   return (
     <section className="relative overflow-hidden bg-night text-canvas">
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="blob blob-orange animate-blob" style={{ width: 540, height: 540, right: '4%', top: '-16%', opacity: 0.4 }} />
+        <div className="blob blob-amber animate-blob" style={{ width: 400, height: 400, right: '30%', bottom: '-18%', opacity: 0.28, animationDelay: '5s' }} />
+      </div>
       <Container className="relative py-24 sm:py-32">
         <div className="grid items-center gap-12 md:grid-cols-12">
           <div className="md:col-span-7">
             <Reveal>
-              <Eyebrow className="eyebrow-light">Diagnose before you deploy</Eyebrow>
+              <Eyebrow className="eyebrow-light">Evidence before capital</Eyebrow>
               <h2 className="text-display-lg mt-6 text-canvas">
                 The first conversation is a diagnostic, not a pitch.
               </h2>
               <p className="mt-6 max-w-xl font-sans text-[1.05rem] leading-relaxed text-canvas/60">
                 Bring us a company you own, or one you are looking at. We will
                 map where the value is leaking and what it would take to build
-                it back — before anyone commits to anything.
+                it back, before anyone commits to anything.
               </p>
             </Reveal>
           </div>

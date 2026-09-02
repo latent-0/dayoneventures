@@ -9,7 +9,7 @@ export const Route = createFileRoute('/framework')({
       path: '/framework',
       title: 'The Framework · Day One Ventures',
       description:
-        'Diagnose, Operate, Compound, Realize — the four-phase value-creation framework Day One Ventures runs inside every software company it owns.',
+        'Diagnose, Operate, Compound, Realize. The four-phase value-creation framework Day One Ventures runs inside every software company it owns.',
       keywords:
         'private equity value creation framework, operating partner, EBITDA expansion, multiple expansion, exit readiness, SaaS diligence',
     }),
@@ -25,12 +25,12 @@ function FrameworkPage() {
           <Reveal>
             <Eyebrow>The framework</Eyebrow>
             <h1 className="text-display-xl mt-6 max-w-4xl">
-              Diagnose before you deploy.
+              Find the value before you fund it.
             </h1>
             <p className="text-lead mt-8 max-w-2xl text-ink-60">
               A single, sequential operating system for value creation. Each
-              phase produces an output the next one depends on — no capital moves
-              ahead of the diagnosis, and no exit is scrambled at the end.
+              phase produces an output the next one depends on. No capital moves
+              ahead of the diagnosis, and no exit gets scrambled at the end.
             </p>
           </Reveal>
           <Reveal delay={120}>

@@ -1,4 +1,4 @@
-import { Link, useLocation } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 /* ------------------------------------------------------------------ */
@@ -131,19 +131,88 @@ export function Wordmark({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Header                                                             */
+/*  Header + Framework mega-menu                                       */
 /* ------------------------------------------------------------------ */
 
 const NAV = [
   { to: '/framework', label: 'Framework' },
+  { to: '/platform', label: 'Platform' },
   { to: '/firm', label: 'The Firm' },
   { to: '/contact', label: 'Contact' },
 ] as const
 
+export const PLATFORM_MENU = [
+  {
+    name: 'Day One Technologies',
+    role: 'Technology execution, owned',
+    href: 'https://day1tech.com',
+    display: 'day1tech.com',
+  },
+  {
+    name: 'DayOneX',
+    role: 'Enterprise AI & platform systems',
+    href: 'https://dayonex.org',
+    display: 'dayonex.org',
+  },
+]
+
+type MenuLayer = {
+  code: string
+  name: string
+  items?: string[]
+  groups?: { g: string; items: string[] }[]
+}
+
+export const FRAMEWORK_MENU: MenuLayer[] = [
+  {
+    code: '01',
+    name: 'Diagnose',
+    items: [
+      'GTM efficiency review',
+      'Cost-to-serve teardown',
+      'Product and roadmap gaps',
+      'Data readiness',
+      'Technical due diligence',
+      'Retention and NRR drivers',
+    ],
+  },
+  {
+    code: '02',
+    name: 'Operate',
+    groups: [
+      { g: 'Revenue engine', items: ['GTM build', 'Pricing and packaging', 'Expansion motion'] },
+      { g: 'Cost engine', items: ['Offshore delivery', 'AI automation', 'Vendor consolidation'] },
+      { g: 'Product engine', items: ['AI-native workflows', 'Data moat', 'Retention loops'] },
+    ],
+  },
+  {
+    code: '03',
+    name: 'Compound',
+    items: [
+      'CFO-grade metrics',
+      'NRR past 115%',
+      'Retention systems',
+      'Durable defensibility',
+      'Reporting cadence',
+    ],
+  },
+  {
+    code: '04',
+    name: 'Realize',
+    items: [
+      'Investor-grade data room',
+      'The buyer story',
+      'Management presentation',
+      'A higher multiple',
+    ],
+  },
+]
+
 export function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const { pathname } = useLocation()
+  const [fwOpen, setFwOpen] = useState(false)
+  const [pltOpen, setPltOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -152,45 +221,95 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Home-page links sit over the photo; the wordmark remains on the paper panel.
-  const light = pathname === '/' && !scrolled && !open
+  // The hero sits on a light paper ground, so the nav stays dark throughout.
+  const light = false
   const barBg = light ? 'bg-canvas' : 'bg-ink'
+  const linkCls = light
+    ? 'text-canvas/80 hover:text-canvas'
+    : 'text-ink-80 hover:text-ink'
 
   return (
     <header
       className={`sticky top-0 z-50 transition-colors duration-300 ${
-        scrolled
-          ? 'bg-canvas/85 backdrop-blur-md border-b border-line'
+        scrolled || fwOpen || pltOpen
+          ? 'bg-canvas/90 backdrop-blur-md border-b border-line'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
       <Container width="wide">
         <div className="flex h-[4.75rem] items-center justify-between">
           <Link to="/" aria-label="Day One Ventures, home" onClick={() => setOpen(false)}>
-            <Wordmark tone="ink" />
+            <Wordmark tone={light ? 'light' : 'ink'} />
           </Link>
 
           <nav className="hidden items-center gap-9 md:flex">
-            {NAV.map((item) => (
+            {/* Framework — opens the mega-menu on hover */}
+            <div
+              className="relative"
+              onMouseEnter={() => setFwOpen(true)}
+              onMouseLeave={() => setFwOpen(false)}
+            >
               <Link
-                key={item.to}
-                to={item.to}
-                className={`font-sans text-[0.82rem] tracking-wide transition-colors ${
-                  light
-                    ? 'text-canvas/80 hover:text-canvas'
-                    : 'text-ink-80 hover:text-ink'
-                }`}
+                to="/framework"
+                className={`flex items-center gap-1.5 font-sans text-[0.82rem] tracking-wide transition-colors ${linkCls}`}
                 activeProps={{ className: light ? 'text-canvas' : 'text-ink' }}
                 activeOptions={{ exact: false }}
               >
-                {item.label}
+                Framework
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 10 10"
+                  className={`transition-transform duration-300 ${fwOpen ? 'rotate-180' : ''}`}
+                >
+                  <path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.3" />
+                </svg>
               </Link>
-            ))}
+            </div>
+
+            {/* Platform — opens the group mega-menu on hover */}
+            <div
+              className="relative"
+              onMouseEnter={() => setPltOpen(true)}
+              onMouseLeave={() => setPltOpen(false)}
+            >
+              <Link
+                to="/platform"
+                className={`flex items-center gap-1.5 font-sans text-[0.82rem] tracking-wide transition-colors ${linkCls}`}
+                activeProps={{ className: light ? 'text-canvas' : 'text-ink' }}
+                activeOptions={{ exact: false }}
+              >
+                Platform
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 10 10"
+                  className={`transition-transform duration-300 ${pltOpen ? 'rotate-180' : ''}`}
+                >
+                  <path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.3" />
+                </svg>
+              </Link>
+            </div>
+
+            <Link
+              to="/firm"
+              className={`font-sans text-[0.82rem] tracking-wide transition-colors ${linkCls}`}
+              activeProps={{ className: light ? 'text-canvas' : 'text-ink' }}
+              activeOptions={{ exact: false }}
+            >
+              The Firm
+            </Link>
             <Link
               to="/contact"
-              className={`btn !px-5 !py-2.5 text-[0.82rem] ${
-                light ? 'btn-light' : 'btn-primary'
-              }`}
+              className={`font-sans text-[0.82rem] tracking-wide transition-colors ${linkCls}`}
+              activeProps={{ className: light ? 'text-canvas' : 'text-ink' }}
+              activeOptions={{ exact: false }}
+            >
+              Contact
+            </Link>
+            <Link
+              to="/contact"
+              className={`btn !px-5 !py-2.5 text-[0.82rem] ${light ? 'btn-light' : 'btn-primary'}`}
             >
               Talk to us
             </Link>
@@ -204,25 +323,143 @@ export function Header() {
             onClick={() => setOpen((v) => !v)}
           >
             <span className="relative block h-3 w-6">
-              <span
-                className={`absolute left-0 h-px w-6 transition-all duration-300 ${barBg} ${
-                  open ? 'top-1.5 rotate-45' : 'top-0'
-                }`}
-              />
-              <span
-                className={`absolute left-0 top-1.5 h-px w-6 transition-all duration-300 ${barBg} ${
-                  open ? 'opacity-0' : 'opacity-100'
-                }`}
-              />
-              <span
-                className={`absolute left-0 h-px w-6 transition-all duration-300 ${barBg} ${
-                  open ? 'top-1.5 -rotate-45' : 'top-3'
-                }`}
-              />
+              <span className={`absolute left-0 h-px w-6 transition-all duration-300 ${barBg} ${open ? 'top-1.5 rotate-45' : 'top-0'}`} />
+              <span className={`absolute left-0 top-1.5 h-px w-6 transition-all duration-300 ${barBg} ${open ? 'opacity-0' : 'opacity-100'}`} />
+              <span className={`absolute left-0 h-px w-6 transition-all duration-300 ${barBg} ${open ? 'top-1.5 -rotate-45' : 'top-3'}`} />
             </span>
           </button>
         </div>
       </Container>
+
+      {/* Framework mega-menu (desktop) */}
+      <div
+        className={`absolute inset-x-0 top-full hidden md:block ${fwOpen ? '' : 'pointer-events-none'}`}
+        onMouseEnter={() => setFwOpen(true)}
+        onMouseLeave={() => setFwOpen(false)}
+      >
+        <div
+          className={`origin-top border-b border-line bg-canvas/97 backdrop-blur-md transition-all duration-300 ${
+            fwOpen ? 'opacity-100 translate-y-0' : '-translate-y-2 opacity-0'
+          }`}
+        >
+          <Container width="wide" className="py-10">
+            <div className="grid grid-cols-2 gap-x-10 gap-y-8 lg:grid-cols-5">
+              {FRAMEWORK_MENU.map((layer) => (
+                <div key={layer.code}>
+                  <p className="flex items-baseline gap-2">
+                    <span className="font-mono text-[0.72rem] text-gold-deep">{layer.code}</span>
+                    <span className="font-display text-ink" style={{ fontSize: '1.05rem', fontWeight: 600 }}>
+                      {layer.name}
+                    </span>
+                  </p>
+                  {layer.items && (
+                    <ul className="mt-4 space-y-2.5">
+                      {layer.items.map((it) => (
+                        <li key={it}>
+                          <Link
+                            to="/framework"
+                            className="link-line font-sans text-[0.86rem] text-ink-60 hover:text-ink"
+                          >
+                            {it}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {layer.groups && (
+                    <div className="mt-4 space-y-4">
+                      {layer.groups.map((grp) => (
+                        <div key={grp.g}>
+                          <p className="font-sans text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-ink">
+                            {grp.g}
+                          </p>
+                          <ul className="mt-2 space-y-1.5">
+                            {grp.items.map((it) => (
+                              <li key={it}>
+                                <Link
+                                  to="/framework"
+                                  className="link-line font-sans text-[0.84rem] text-ink-60 hover:text-ink"
+                                >
+                                  {it}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {/* Teaser cell */}
+              <div className="relative overflow-hidden rounded-xl border border-line bg-canvas-2 p-5">
+                <div className="blob blob-orange absolute -right-6 -top-8" style={{ width: 150, height: 150, opacity: 0.5, filter: 'blur(36px)' }} />
+                <p className="relative eyebrow">Four layers. One system.</p>
+                <p className="relative mt-3 font-display text-ink" style={{ fontSize: '1.25rem', lineHeight: 1.2 }}>
+                  Revenue, cost and product, rebuilt together.
+                </p>
+                <Link to="/framework" className="relative link-line mt-4 inline-block font-sans text-[0.82rem] text-gold-deep">
+                  See the full framework
+                </Link>
+              </div>
+            </div>
+          </Container>
+        </div>
+      </div>
+
+      {/* Platform mega-menu (desktop) */}
+      <div
+        className={`absolute inset-x-0 top-full hidden md:block ${pltOpen ? '' : 'pointer-events-none'}`}
+        onMouseEnter={() => setPltOpen(true)}
+        onMouseLeave={() => setPltOpen(false)}
+      >
+        <div
+          className={`origin-top border-b border-line bg-canvas/97 backdrop-blur-md transition-all duration-300 ${
+            pltOpen ? 'opacity-100 translate-y-0' : '-translate-y-2 opacity-0'
+          }`}
+        >
+          <Container width="wide" className="py-10">
+            <div className="grid gap-x-12 gap-y-8 md:grid-cols-2">
+              <div>
+                <p className="eyebrow">The Day One group</p>
+                <ul className="mt-5 space-y-5">
+                  {PLATFORM_MENU.map((c) => (
+                    <li key={c.name}>
+                      <a
+                        href={c.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group block"
+                      >
+                        <span className="font-display text-ink transition-colors group-hover:text-gold-deep" style={{ fontSize: '1.15rem', fontWeight: 600 }}>
+                          {c.name}
+                        </span>
+                        <span className="mt-1 flex items-center gap-2 font-sans text-[0.84rem] text-ink-60">
+                          {c.role}
+                          <span className="text-ink-45">·</span>
+                          <span className="text-gold-deep">{c.display} →</span>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="relative overflow-hidden rounded-xl border border-line bg-canvas-2 p-6">
+                <div className="blob blob-orange absolute -right-6 -top-8" style={{ width: 160, height: 160, opacity: 0.5, filter: 'blur(38px)' }} />
+                <p className="relative eyebrow">The build behind the buy</p>
+                <p className="relative mt-3 font-display text-ink" style={{ fontSize: '1.3rem', lineHeight: 1.2 }}>
+                  A captive technology group, deployed into every deal.
+                </p>
+                <Link to="/platform" className="relative link-line mt-4 inline-block font-sans text-[0.82rem] text-gold-deep">
+                  Explore the platform
+                </Link>
+              </div>
+            </div>
+          </Container>
+        </div>
+      </div>
 
       {/* Mobile menu */}
       <div
@@ -278,9 +515,9 @@ export function Footer() {
           <div>
             <Wordmark tone="light" />
             <p className="mt-6 max-w-sm font-sans text-[0.95rem] leading-relaxed text-canvas/60">
-              A private equity operating firm. We build equity value in
-              lower-middle-market software companies — hands-on, from day one of
-              ownership.
+              A private equity operating firm. We build equity value in lower
+              middle market software companies, and we do the operating work
+              ourselves from day one of ownership.
             </p>
             <p className="equation mt-6 text-[0.82rem] text-gold-soft">
               Equity Value = Earnings × Multiple

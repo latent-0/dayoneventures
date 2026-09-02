@@ -51,7 +51,7 @@ export function ApertureReveal() {
           className="absolute inset-0"
           style={{
             backgroundImage:
-              'repeating-radial-gradient(circle at 50% 50%, rgba(156,125,58,0.10) 0px, rgba(156,125,58,0.10) 1px, transparent 1px, transparent 46px)',
+              'repeating-radial-gradient(circle at 50% 50%, rgba(232,99,29,0.10) 0px, rgba(232,99,29,0.10) 1px, transparent 1px, transparent 46px)',
           }}
         />
 
@@ -67,7 +67,7 @@ export function ApertureReveal() {
               className="absolute inset-0"
               style={{
                 background:
-                  'radial-gradient(70% 70% at 50% 45%, #1b2620 0%, #0e1511 60%, #080c09 100%)',
+                  'radial-gradient(70% 70% at 50% 45%, #241a10 0%, #17120c 60%, #0e0a06 100%)',
               }}
             />
             <div className="grain absolute inset-0 opacity-[0.05] mix-blend-overlay" />

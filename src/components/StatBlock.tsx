@@ -31,7 +31,7 @@ const midNumber: React.CSSProperties = {
 const SECONDARY = [
   {
     value: '$5–40M',
-    line: 'the ARR band we focus on — where one operating team can still move the entire number.',
+    line: 'the ARR band we focus on, where one operating team can still move the entire number.',
   },
   {
     value: '18–36 mo',
@@ -62,9 +62,10 @@ export function StatBlock() {
               Two-thirds
             </div>
             <p className="mt-8 max-w-md font-sans text-[1.15rem] leading-relaxed text-ink-60">
-              of private-equity value creation now comes from operating the
-              business better — not from leverage or buying at the right multiple.
-              That is the part most firms outsource. It is the only part we do.
+              of private equity value creation now comes from operating the
+              business better, not from leverage or from buying at the right
+              multiple. That is the part most firms outsource. It is the only
+              part we do.
             </p>
           </motion.div>
 

@@ -8,7 +8,7 @@ export const Route = createFileRoute('/firm')({
       path: '/firm',
       title: 'The Firm · Day One Ventures',
       description:
-        'Day One Ventures is a private equity operating firm. We believe value in software is manufactured in the holding period — so we own the operating work ourselves, from day one.',
+        'Day One Ventures is a private equity operating firm. We believe value in software is manufactured in the holding period, so we own the operating work ourselves from day one.',
       keywords:
         'private equity operating firm, value creation, operating partner model, software buyouts, EBITDA growth',
     }),
@@ -24,12 +24,12 @@ const PRINCIPLES = [
   {
     n: '02',
     t: 'The holding period is the product.',
-    b: 'Entry multiple is a fact of the market. Everything that turns it into a return happens after close — so that is where we spend our time.',
+    b: 'Entry multiple is a fact of the market. Everything that turns it into a return happens after close, so that is where we spend our time.',
   },
   {
     n: '03',
-    t: 'Diagnose before you deploy.',
-    b: 'Capital follows evidence. We map value leakage across six dimensions and rank interventions by what they are worth before we move.',
+    t: 'Evidence before capital.',
+    b: 'No dollar of change moves ahead of the diagnosis. We map where value leaks across six dimensions and rank every fix by what it is worth before we act.',
   },
   {
     n: '04',
@@ -44,7 +44,7 @@ const PRINCIPLES = [
   {
     n: '06',
     t: 'The library compounds.',
-    b: 'Every deal adds to a proprietary operating library. What we learn on one company makes the next one faster — and cannot be copied from a deck.',
+    b: 'Every deal adds to a proprietary operating library. What we learn on one company makes the next one faster, and it cannot be copied from a deck.',
   },
 ]
 
@@ -69,7 +69,7 @@ function FirmPage() {
             <p className="text-lead mt-8 max-w-2xl text-canvas/65">
               Day One Ventures is a private equity operating firm for
               lower-middle-market software. We take control or structured
-              positions in businesses we can genuinely improve — and then we do
+              positions in businesses we can genuinely improve, and then we do
               the improving ourselves.
             </p>
           </Reveal>
@@ -91,8 +91,8 @@ function FirmPage() {
                 <p className="text-lead text-ink-80 dropcap">
                   Software is bought well and run flat more often than anyone
                   admits. The deal gets underwritten, a hundred-day plan gets
-                  written, and then the hardest part — actually operating the
-                  business to a bigger number — gets delegated to the people who
+                  written, and then the hardest part, actually operating the
+                  business to a bigger number, gets handed to the same people who
                   were already running it flat.
                 </p>
                 <p className="mt-6 font-sans text-[1.05rem] leading-relaxed text-ink-60">

@@ -16,13 +16,13 @@ type Beat = {
 const BEATS: Beat[] = [
   { chapter: 'The problem', text: 'Most software is bought well, then run flat.' },
   { chapter: 'The trap', text: 'A strong entry multiple is not a return.' },
-  { chapter: 'The truth', text: 'Value is made in the holding period — or not at all.' },
-  { chapter: 'The difference', text: 'So we don’t advise from the sidelines. We operate.' },
+  { chapter: 'The truth', text: 'Value is made during the hold, or it is not made at all.' },
+  { chapter: 'The difference', text: 'So we do not advise from the sidelines. We operate.' },
   { chapter: 'The promise', text: 'From day one, we build the number.', accent: true },
 ]
 
 const bg =
-  'radial-gradient(130% 120% at 50% 10%, #17201a 0%, #0e1511 55%, #080c09 100%)'
+  'radial-gradient(130% 120% at 50% 10%, #241a10 0%, #17120c 55%, #0e0a06 100%)'
 
 export function HorizonScroll() {
   const reduce = useReducedMotion()
@@ -92,7 +92,7 @@ function ProgressBar({ progress }: { progress: MotionValue<number> }) {
 function Counter({ progress, total }: { progress: MotionValue<number>; total: number }) {
   const label = useTransform(progress, (v) => {
     const i = Math.min(total, Math.max(1, Math.floor(v * total) + 1))
-    return `0${i} — 0${total}`
+    return `0${i} / 0${total}`
   })
   return <motion.span>{label}</motion.span>
 }
@@ -134,7 +134,7 @@ function Panel({
             fontSize: 'clamp(14rem, 34vw, 34rem)',
             fontWeight: 400,
             color: 'transparent',
-            WebkitTextStroke: '1px rgba(195,163,94,0.16)',
+            WebkitTextStroke: '1px rgba(232,99,29,0.22)',
           }}
         >
           {index + 1}

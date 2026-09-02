@@ -22,7 +22,7 @@ export const PHASES: Phase[] = [
     n: '01',
     title: 'Diagnose',
     output: 'The Value Map',
-    lead: 'Before a dollar of change, a structured operating diagnostic across six dimensions. We find exactly where value is leaking and rank every intervention by what it is worth — so capital only ever follows evidence.',
+    lead: 'Before a dollar of change, we run a structured operating diagnostic across six dimensions. We find exactly where value is leaking and rank every intervention by what it is worth, so capital only ever follows evidence.',
     items: [
       { k: 'Go-to-market efficiency', v: 'Where pipeline, conversion and payback quietly break down.' },
       { k: 'Gross margin & unit economics', v: 'The true cost to serve, rebuilt line by line.' },
@@ -35,8 +35,8 @@ export const PHASES: Phase[] = [
   {
     n: '02',
     title: 'Operate',
-    output: 'EBITDA Expansion',
-    lead: 'We deploy three engines at once and run them ourselves — nothing is handed over a wall. Growth, margin and product move on one operating cadence, owned by the people accountable for the result.',
+    output: 'EBITDA, Rebuilt',
+    lead: 'We deploy three engines at once and run them ourselves. Nothing gets handed over a wall. Growth, margin and product move on one operating cadence, owned by the people accountable for the result.',
     items: [
       { k: 'Revenue engine', v: 'GTM engineering, pricing, and the expansion motion rebuilt.' },
       { k: 'Margin engine', v: 'Vendor compression, offshore substitution, AI automation.' },
@@ -48,7 +48,7 @@ export const PHASES: Phase[] = [
     n: '03',
     title: 'Compound',
     output: 'A Business That Compounds',
-    lead: 'Growth that survives diligence. We push net revenue retention past 115%, harden the moat, and make every gain structural — so it holds long after we step back, not just while we are in the room.',
+    lead: 'Growth that survives diligence. We push net revenue retention past 115%, harden the moat, and make every gain structural, so it holds long after we step back rather than only while we are in the room.',
     items: [
       { k: 'NRR above 115%', v: 'Expansion that outruns churn, quarter after quarter.' },
       { k: 'Retention loops', v: 'Onboarding, success and product loops that make it stick.' },
@@ -59,11 +59,11 @@ export const PHASES: Phase[] = [
   {
     n: '04',
     title: 'Realize',
-    output: 'Maximum Multiple',
+    output: 'A Higher Multiple',
     lead: 'The exit is built years early, not scrambled at the end. We assemble the diligence-ready data room and the buyer narrative so the process simply confirms a story the numbers already tell.',
     items: [
       { k: 'Investor-grade data room', v: 'Metrics that stand up to the hardest diligence.' },
-      { k: 'Buyer narrative', v: 'The equity story, evidenced — never merely asserted.' },
+      { k: 'Buyer narrative', v: 'The equity story, evidenced rather than asserted.' },
       { k: 'Management presentation', v: 'A team and a plan a buyer will pay up for.' },
       { k: 'Multiple expansion', v: 'A higher exit multiple, earned by the numbers.' },
     ],
@@ -117,7 +117,7 @@ export function FrameworkScroll() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              'radial-gradient(55% 60% at 82% 40%, rgba(195,163,94,0.08), rgba(245,242,234,0) 70%)',
+              'radial-gradient(55% 60% at 82% 40%, rgba(232,99,29,0.09), rgba(246,241,233,0) 70%)',
           }}
         />
         <Container width="wide" className="relative w-full">
@@ -142,7 +142,7 @@ export function FrameworkScroll() {
                         color:
                           i <= active ? 'var(--color-emerald-deep)' : 'var(--color-ink-45)',
                         background:
-                          i === active ? 'rgba(31,91,69,0.10)' : 'transparent',
+                          i === active ? 'rgba(232,99,29,0.10)' : 'transparent',
                       }}
                     >
                       {p.n}

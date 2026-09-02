@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FirmRouteImport } from './routes/firm'
 import { Route as FrameworkRouteImport } from './routes/framework'
+import { Route as PlatformRouteImport } from './routes/platform'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const FrameworkRoute = FrameworkRouteImport.update({
   path: '/framework',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlatformRoute = PlatformRouteImport.update({
+  id: '/platform',
+  path: '/platform',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/firm': typeof FirmRoute
   '/framework': typeof FrameworkRoute
+  '/platform': typeof PlatformRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/firm': typeof FirmRoute
   '/framework': typeof FrameworkRoute
+  '/platform': typeof PlatformRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/firm': typeof FirmRoute
   '/framework': typeof FrameworkRoute
+  '/platform': typeof PlatformRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact' | '/firm' | '/framework'
+  fullPaths: '/' | '/contact' | '/firm' | '/framework' | '/platform'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/firm' | '/framework'
-  id: '__root__' | '/' | '/contact' | '/firm' | '/framework'
+  to: '/' | '/contact' | '/firm' | '/framework' | '/platform'
+  id: '__root__' | '/' | '/contact' | '/firm' | '/framework' | '/platform'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   FirmRoute: typeof FirmRoute
   FrameworkRoute: typeof FrameworkRoute
+  PlatformRoute: typeof PlatformRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FrameworkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/platform': {
+      id: '/platform'
+      path: '/platform'
+      fullPath: '/platform'
+      preLoaderRoute: typeof PlatformRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   FirmRoute: FirmRoute,
   FrameworkRoute: FrameworkRoute,
+  PlatformRoute: PlatformRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
