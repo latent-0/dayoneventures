@@ -1,7 +1,7 @@
 export const SITE = {
   name: 'Dayone Ventures',
-  url: 'https://www.dayoneventurespartners.com',
-  email: 'contact@dayoneventurespartners.com',
+  url: 'https://www.dayoneventurepartners.com',
+  email: 'contact@dayoneventurepartners.com',
   ogImage: '/og-image.jpg',
 }
 

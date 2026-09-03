@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Container, Eyebrow, Reveal, Rosette } from '../components/site'
 import { seo } from '../lib/seo'
+import { LEAD_ROLES, submitLead, type LeadInput } from '../lib/leads'
 
 export const Route = createFileRoute('/contact')({
   head: () =>
@@ -9,48 +10,55 @@ export const Route = createFileRoute('/contact')({
       path: '/contact',
       title: 'Contact · Dayone Ventures',
       description:
-        'Bring us a company you own or are considering. The first conversation is a diagnostic, not a pitch. Reach Dayone Ventures at contact@dayoneventurespartners.com.',
+        'Bring us a company you own or are considering. The first conversation is a diagnostic, not a pitch. Reach Dayone Ventures at contact@dayoneventurepartners.com.',
     }),
   component: ContactPage,
 })
 
-const EMAIL = 'contact@dayoneventurespartners.com'
+const EMAIL = 'contact@dayoneventurepartners.com'
 
-const ROLES = [
-  'PE sponsor / fund',
-  'Independent sponsor',
-  'Founder / owner',
-  'Advisor / intermediary',
-  'Other',
-]
+type Status = 'idle' | 'sending' | 'sent' | 'error'
+
+const EMPTY: LeadInput = {
+  name: '',
+  email: '',
+  org: '',
+  role: LEAD_ROLES[0],
+  company: '',
+  message: '',
+  company_website: '',
+}
 
 function ContactPage() {
-  const [form, setForm] = useState({
-    name: '',
-    org: '',
-    role: ROLES[0],
-    company: '',
-    message: '',
-  })
+  const [form, setForm] = useState<LeadInput>(EMPTY)
+  const [status, setStatus] = useState<Status>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
 
-  const set = (k: keyof typeof form) => (
+  const set = (k: keyof LeadInput) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => setForm((f) => ({ ...f, [k]: e.target.value }))
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const subject = `Dayone enquiry: ${form.org || form.name || 'new'}`
-    const body = [
-      `Name: ${form.name}`,
-      `Organisation: ${form.org}`,
-      `Role: ${form.role}`,
-      `Company in question: ${form.company}`,
-      '',
-      form.message,
-    ].join('\n')
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(
-      subject,
-    )}&body=${encodeURIComponent(body)}`
+    if (status === 'sending') return
+    setStatus('sending')
+    setErrorMsg('')
+    try {
+      const res = await submitLead({ data: form })
+      if (res.ok) {
+        setStatus('sent')
+      } else {
+        setStatus('error')
+        setErrorMsg(res.error)
+      }
+    } catch (err) {
+      setStatus('error')
+      setErrorMsg(
+        err instanceof Error && err.message
+          ? err.message
+          : `Something went wrong. Please email us directly at ${EMAIL}.`,
+      )
+    }
   }
 
   return (
@@ -107,49 +115,113 @@ function ContactPage() {
           {/* Right — the form */}
           <div className="md:col-span-6 md:col-start-7">
             <Reveal delay={90}>
-              <form
-                onSubmit={onSubmit}
-                className="rounded-2xl border border-night-line bg-night-2 p-7 sm:p-9"
-              >
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <Field label="Your name">
-                    <input required value={form.name} onChange={set('name')} className={inputCls} placeholder="Jane Partner" />
-                  </Field>
-                  <Field label="Organisation">
-                    <input value={form.org} onChange={set('org')} className={inputCls} placeholder="Fund or company" />
-                  </Field>
+              {status === 'sent' ? (
+                <div className="rounded-2xl border border-night-line bg-night-2 p-7 sm:p-9">
+                  <p className="eyebrow text-gold-soft">Received</p>
+                  <h2 className="mt-4 font-display text-canvas" style={{ fontSize: '1.6rem' }}>
+                    Thank you — your note is with us.
+                  </h2>
+                  <p className="mt-4 font-sans text-[0.98rem] leading-relaxed text-canvas/65">
+                    We read every enquiry ourselves and will reply to{' '}
+                    <span className="text-canvas">{form.email}</span> within two
+                    business days, usually sooner.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setForm(EMPTY)
+                      setStatus('idle')
+                    }}
+                    className="btn btn-light mt-7"
+                  >
+                    Send another
+                  </button>
                 </div>
-                <div className="mt-5 grid gap-5 sm:grid-cols-2">
-                  <Field label="You are a">
-                    <select value={form.role} onChange={set('role')} className={inputCls}>
-                      {ROLES.map((r) => (
-                        <option key={r} value={r} style={{ color: '#16130c' }}>{r}</option>
-                      ))}
-                    </select>
-                  </Field>
-                  <Field label="Company in question">
-                    <input value={form.company} onChange={set('company')} className={inputCls} placeholder="Name / ARR band" />
-                  </Field>
-                </div>
-                <div className="mt-5">
-                  <Field label="What are you seeing?">
-                    <textarea
-                      value={form.message}
-                      onChange={set('message')}
-                      rows={5}
-                      className={`${inputCls} resize-none`}
-                      placeholder="The situation, the levers you suspect, the timeline."
-                    />
-                  </Field>
-                </div>
-                <button type="submit" className="btn btn-light mt-7 w-full">
-                  Compose enquiry
-                </button>
-                <p className="mt-4 text-center font-sans text-[0.78rem] text-canvas/40">
-                  Opens your mail client, addressed to {EMAIL}. Nothing is sent
-                  until you hit send.
-                </p>
-              </form>
+              ) : (
+                <form
+                  onSubmit={onSubmit}
+                  className="relative rounded-2xl border border-night-line bg-night-2 p-7 sm:p-9"
+                >
+                  {/* Honeypot — hidden from people, catches bots */}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden opacity-0"
+                  >
+                    <label>
+                      Company website
+                      <input
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={form.company_website}
+                        onChange={set('company_website')}
+                      />
+                    </label>
+                  </div>
+
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <Field label="Your name">
+                      <input required value={form.name} onChange={set('name')} className={inputCls} placeholder="Jane Partner" />
+                    </Field>
+                    <Field label="Work email">
+                      <input
+                        required
+                        type="email"
+                        value={form.email}
+                        onChange={set('email')}
+                        className={inputCls}
+                        placeholder="jane@fund.com"
+                      />
+                    </Field>
+                  </div>
+                  <div className="mt-5 grid gap-5 sm:grid-cols-2">
+                    <Field label="Organisation">
+                      <input value={form.org} onChange={set('org')} className={inputCls} placeholder="Fund or company" />
+                    </Field>
+                    <Field label="You are a">
+                      <select value={form.role} onChange={set('role')} className={inputCls}>
+                        {LEAD_ROLES.map((r) => (
+                          <option key={r} value={r} style={{ color: '#16130c' }}>{r}</option>
+                        ))}
+                      </select>
+                    </Field>
+                  </div>
+                  <div className="mt-5">
+                    <Field label="Company in question">
+                      <input value={form.company} onChange={set('company')} className={inputCls} placeholder="Name / ARR band" />
+                    </Field>
+                  </div>
+                  <div className="mt-5">
+                    <Field label="What are you seeing?">
+                      <textarea
+                        required
+                        value={form.message}
+                        onChange={set('message')}
+                        rows={5}
+                        className={`${inputCls} resize-none`}
+                        placeholder="The situation, the levers you suspect, the timeline."
+                      />
+                    </Field>
+                  </div>
+
+                  {status === 'error' && (
+                    <p className="mt-5 rounded-md border border-red-500/40 bg-red-500/10 px-4 py-3 font-sans text-[0.85rem] text-red-200">
+                      {errorMsg}
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={status === 'sending'}
+                    className="btn btn-light mt-7 w-full disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {status === 'sending' ? 'Sending…' : 'Send enquiry'}
+                  </button>
+                  <p className="mt-4 text-center font-sans text-[0.78rem] text-canvas/40">
+                    Goes straight to our team. We reply within two business days.
+                  </p>
+                </form>
+              )}
             </Reveal>
           </div>
         </div>
