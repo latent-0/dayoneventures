@@ -551,8 +551,8 @@ export function Footer() {
             <p className="eyebrow text-gold-soft">Enquiries</p>
             <ul className="mt-5 space-y-3 font-sans text-[0.95rem] text-canvas/70">
               <li>
-                <a href="mailto:office@dayoneventures.com" className="link-line">
-                  office@dayoneventures.com
+                <a href="mailto:contact@dayoneventurespartners.com" className="link-line">
+                  contact@dayoneventurespartners.com
                 </a>
               </li>
               <li>

@@ -9,12 +9,12 @@ export const Route = createFileRoute('/contact')({
       path: '/contact',
       title: 'Contact · Day One Ventures',
       description:
-        'Bring us a company you own or are considering. The first conversation is a diagnostic, not a pitch. Reach Day One Ventures at office@dayoneventures.com.',
+        'Bring us a company you own or are considering. The first conversation is a diagnostic, not a pitch. Reach Day One Ventures at contact@dayoneventurespartners.com.',
     }),
   component: ContactPage,
 })
 
-const EMAIL = 'office@dayoneventures.com'
+const EMAIL = 'contact@dayoneventurespartners.com'
 
 const ROLES = [
   'PE sponsor / fund',

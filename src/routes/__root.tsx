@@ -11,7 +11,7 @@ import { Header, Footer, Container } from '../components/site'
 
 const SITE = {
   name: 'Day One Ventures',
-  url: 'https://www.dayoneventures.com',
+  url: 'https://www.dayoneventurespartners.com',
   description:
     'Day One Ventures is a private equity operating firm for lower middle market software companies. We diagnose value leakage, deploy revenue, margin and product engines, and build exit readiness, and we do it hands on from day one of ownership.',
 }
@@ -26,7 +26,7 @@ const orgSchema = {
   disambiguatingDescription:
     'Day One Ventures is a private equity operating firm that partners with sponsors and management teams of lower-middle-market ($5M–$40M ARR) software and tech-enabled businesses to expand EBITDA and multiple through a four-phase value-creation framework: Diagnose, Operate, Compound, Realize.',
   url: SITE.url,
-  email: 'office@dayoneventures.com',
+  email: 'contact@dayoneventurespartners.com',
   slogan: 'Value, built from day one.',
   address: {
     '@type': 'PostalAddress',
