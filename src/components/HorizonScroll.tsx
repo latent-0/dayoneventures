@@ -44,7 +44,7 @@ export function HorizonScroll() {
               <p className="eyebrow eyebrow-light">{`0${i + 1} · ${b.chapter}`}</p>
               <h2
                 className={`mt-4 font-display ${b.accent ? 'text-gold-soft' : 'text-canvas'}`}
-                style={{ fontSize: 'clamp(1.9rem,4vw,3.2rem)', fontWeight: 400, lineHeight: 1.14 }}
+                style={{ fontSize: 'clamp(1.9rem,4vw,3.2rem)', fontWeight: 600, lineHeight: 1.14 }}
               >
                 {b.text}
               </h2>
@@ -118,7 +118,7 @@ function Panel({
           className={`mt-6 max-w-3xl font-display ${beat.accent ? 'text-gold-soft' : 'text-canvas'}`}
           style={{
             fontSize: 'clamp(2.2rem, 6vw, 5.2rem)',
-            fontWeight: 400,
+            fontWeight: 600,
             lineHeight: 1.06,
             letterSpacing: '-0.02em',
           }}

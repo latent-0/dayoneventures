@@ -107,21 +107,27 @@ export function Wordmark({
 }) {
   const color = tone === 'light' ? 'var(--color-canvas)' : 'var(--color-ink)'
   return (
-    <span className={`inline-flex items-baseline gap-2 leading-none ${className}`}>
+    <span className={`inline-flex items-baseline gap-2.5 leading-none ${className}`}>
       <span
         className="font-display"
-        style={{ color, fontSize: '1.28rem', fontWeight: 500, letterSpacing: '0.01em' }}
+        style={{
+          color,
+          fontSize: '1.24rem',
+          fontWeight: 600,
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+        }}
       >
         Dayone
       </span>
       <span
         className="font-display"
         style={{
-          fontSize: '0.72rem',
-          fontWeight: 500,
-          letterSpacing: '0.32em',
+          fontSize: '0.66rem',
+          fontWeight: 600,
+          letterSpacing: '0.34em',
           textTransform: 'uppercase',
-          color: tone === 'light' ? 'var(--color-gold-soft)' : 'var(--color-gold-deep)',
+          color: tone === 'light' ? 'var(--color-gold-soft)' : 'var(--color-gold)',
         }}
       >
         Ventures

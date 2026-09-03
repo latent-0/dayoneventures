@@ -133,13 +133,13 @@ function HeroCopy({ tone }: { tone: 'dark' | 'light' }) {
       width="wide"
       className="flex h-full flex-col justify-center pt-[4.75rem]"
     >
-      <div className="max-w-2xl">
+      <div className="max-w-3xl">
         <motion.p
           custom={0.05}
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="mb-8 font-sans uppercase"
+          className="mb-7 font-sans uppercase"
           style={{ color: eyebrow, letterSpacing: '0.28em', fontSize: '0.72rem', fontWeight: 500 }}
         >
           Private equity · Operating partners
@@ -151,15 +151,15 @@ function HeroCopy({ tone }: { tone: 'dark' | 'light' }) {
           animate="visible"
           className="font-display"
           style={{
-            fontSize: 'clamp(3rem, 8vw, 7rem)',
-            lineHeight: 1.02,
+            fontSize: 'clamp(2.5rem, 6vw, 5.25rem)',
+            lineHeight: 1.06,
             letterSpacing: '-0.02em',
-            fontWeight: 500,
+            fontWeight: 600,
             color: heading,
           }}
         >
           {TITLE_LINES.map((line, i) => (
-            <span key={i} className="block overflow-hidden pb-[0.06em]">
+            <span key={i} className="block overflow-hidden pb-[0.08em]">
               <motion.span variants={lineInner} className="block">
                 {line}
               </motion.span>

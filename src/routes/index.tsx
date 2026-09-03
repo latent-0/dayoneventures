@@ -311,7 +311,7 @@ function WhereWeFit() {
               {FIT.map((f, i) => (
                 <Reveal key={f.k} delay={i * 80}>
                   <div className="py-7">
-                    <h3 className="font-display text-canvas" style={{ fontSize: 'clamp(1.4rem,2.4vw,1.9rem)', fontWeight: 400 }}>
+                    <h3 className="font-display text-canvas" style={{ fontSize: 'clamp(1.4rem,2.4vw,1.9rem)', fontWeight: 600 }}>
                       {f.k}
                     </h3>
                     <p className="mt-3 font-sans text-[1rem] leading-relaxed text-canvas/60">

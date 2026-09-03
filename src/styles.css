@@ -1,46 +1,51 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/*  Dayone Ventures  ·  design tokens                                 */
-/*  Institutional-editorial: ivory paper, deep ink, gold, vault green. */
-/*  High whitespace. Serif display. Operating-partner gravitas.        */
+/*  Dayone Ventures  ·  design tokens                                  */
+/*  Brand: Poppins throughout. Vivid-orange energy on warm off-white,  */
+/*  charcoal for strength. Bold headlines, high whitespace.            */
 /* ------------------------------------------------------------------ */
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: "Outfit", "Inter", ui-rounded, ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "Poppins", ui-monospace, "SF Mono", Menlo, monospace;
 
-  /* Paper & ink (warm, slightly toward the orange family) */
-  --color-canvas: #f6f1e9;
-  --color-canvas-2: #ece4d8;
-  --color-paper: #fbf7f0;
-  --color-ink: #171208;
-  --color-ink-80: #3a2f1f;
-  --color-ink-60: #5e5140;
-  --color-ink-45: #8a7c66;
-  --color-line: #ded3c0;
-  --color-line-strong: #cbbb9f;
+  /* Paper & ink — warm off-white ground, charcoal ink */
+  --color-canvas: #fcf7f0;
+  --color-canvas-2: #f6ecdd;
+  --color-paper: #ffffff;
+  --color-ink: #111111; /* Charcoal — strength, sophistication */
+  --color-ink-80: #2e2c29;
+  --color-ink-60: #57534c;
+  --color-ink-45: #837c71;
+  --color-line: #ebe0ce;
+  --color-line-strong: #dac9ac;
 
   /* Orange — the primary brand accent (mapped onto the gold token names) */
-  --color-gold: #e8631d;
-  --color-gold-deep: #c14c12;
-  --color-gold-soft: #f59a58;
+  --color-gold: #ff6a00; /* Vivid Orange — energy, action */
+  --color-gold-deep: #c24500; /* text-safe orange for small labels on light */
+  --color-gold-soft: #ffc857; /* Sunshine — accents on dark */
 
-  /* Ember — a deeper, warmer secondary (mapped onto the emerald names) */
-  --color-emerald: #b45a26;
-  --color-emerald-deep: #8f451c;
-  --color-emerald-soft: #e08a4f;
+  /* Secondary orange (mapped onto the emerald names) */
+  --color-emerald: #ff8c1a; /* Orange — growth, optimism */
+  --color-emerald-deep: #d64f00;
+  --color-emerald-soft: #ffc857;
 
-  /* Night — warm charcoal bands (no green) */
-  --color-night: #17120c;
-  --color-night-2: #221a11;
-  --color-night-line: #3b2e1f;
+  /* Peach — warmth, approachability, balance */
+  --color-peach: #ffe7cc;
 
-  /* Raw orange values for gradients and blobs */
-  --color-orange: #e8631d;
-  --color-orange-2: #ff8a3d;
+  /* Night — charcoal bands */
+  --color-night: #121212;
+  --color-night-2: #1c1c1c;
+  --color-night-line: #333333;
 
-  /* Editorial rhythm */
+  /* Raw brand values for gradients and blobs */
+  --color-orange: #ff6a00;
+  --color-orange-2: #ff8c1a;
+
+  /* Rhythm */
   --tracking-eyebrow: 0.24em;
   --spacing-gutter: 1.5rem;
 }
@@ -75,7 +80,7 @@
   }
 
   ::selection {
-    background: var(--color-emerald);
+    background: var(--color-orange);
     color: #fff;
   }
 
@@ -84,8 +89,8 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 300;
-    letter-spacing: -0.01em;
+    font-weight: 600;
+    letter-spacing: -0.015em;
     line-height: 1.1;
     margin: 0;
     text-wrap: balance;
@@ -276,11 +281,28 @@
     transform: none;
   }
 
-  /* The value equation — monospaced, understated */
+  /* The value equation — tabular figures, understated */
   .equation {
     font-family: var(--font-mono);
     letter-spacing: 0.01em;
     font-feature-settings: "tnum";
+  }
+
+  /* Brand gradients */
+  .gradient-sunset {
+    background-image: linear-gradient(135deg, #ff6a00 0%, #ffc857 100%);
+  }
+  .gradient-orange-burst {
+    background-image: linear-gradient(135deg, #ff8c1a 0%, #ff6a00 100%);
+  }
+  .gradient-peach-glow {
+    background-image: linear-gradient(135deg, #ffe7cc 0%, #ffc857 100%);
+  }
+  .text-gradient-sunset {
+    background-image: linear-gradient(135deg, #ff6a00 0%, #ffc857 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 }
 
@@ -363,13 +385,13 @@
   will-change: transform;
 }
 .blob-orange {
-  background: radial-gradient(circle at 34% 32%, rgba(232, 99, 29, 0.85), rgba(232, 99, 29, 0) 70%);
+  background: radial-gradient(circle at 34% 32%, rgba(255, 106, 0, 0.85), rgba(255, 106, 0, 0) 70%);
 }
 .blob-amber {
-  background: radial-gradient(circle at 34% 32%, rgba(255, 138, 61, 0.7), rgba(255, 138, 61, 0) 70%);
+  background: radial-gradient(circle at 34% 32%, rgba(255, 140, 26, 0.72), rgba(255, 140, 26, 0) 70%);
 }
 .blob-deep {
-  background: radial-gradient(circle at 34% 32%, rgba(140, 58, 18, 0.7), rgba(140, 58, 18, 0) 70%);
+  background: radial-gradient(circle at 34% 32%, rgba(214, 79, 0, 0.7), rgba(214, 79, 0, 0) 70%);
 }
 @keyframes blob-drift {
   0%, 100% { transform: translate(0, 0) scale(1); }
@@ -407,20 +429,20 @@
   }
 }
 
-/* Fluid display type scale */
+/* Fluid display type scale — leading tuned for Poppins */
 .text-display-xl {
   font-size: clamp(3rem, 8vw, 7.5rem);
-  line-height: 0.98;
+  line-height: 1.05;
   letter-spacing: -0.025em;
 }
 .text-display-lg {
   font-size: clamp(2.4rem, 5vw, 4.6rem);
-  line-height: 1.02;
+  line-height: 1.08;
   letter-spacing: -0.018em;
 }
 .text-display-md {
   font-size: clamp(1.9rem, 3.4vw, 3rem);
-  line-height: 1.07;
+  line-height: 1.14;
   letter-spacing: -0.012em;
 }
 .text-lead {
