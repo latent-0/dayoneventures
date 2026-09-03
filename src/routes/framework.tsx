@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useLocation } from '@tanstack/react-router'
+import { useEffect } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo } from '../lib/seo'
 import { FrameworkScroll, PHASES } from '../components/FrameworkScroll'
@@ -17,6 +18,30 @@ export const Route = createFileRoute('/framework')({
 })
 
 function FrameworkPage() {
+  const { hash } = useLocation()
+
+  // Scroll to a phase anchor when arriving with a hash (including same-page
+  // hash changes from the mega-menu, which the router doesn't scroll for).
+  // Retry briefly so the router's own scroll-restoration doesn't undo it.
+  useEffect(() => {
+    const id = hash?.replace(/^#/, '')
+    if (!id) return
+    let settled = false
+    const jump = () => {
+      if (settled) return
+      const el = document.getElementById(id)
+      if (!el) return
+      const top = el.getBoundingClientRect().top
+      if (Math.abs(top - 112) < 4) {
+        settled = true
+        return
+      }
+      el.scrollIntoView({ block: 'start' })
+    }
+    const timers = [0, 100, 250, 450, 700].map((d) => setTimeout(jump, d))
+    return () => timers.forEach(clearTimeout)
+  }, [hash])
+
   return (
     <>
       {/* Header */}
@@ -65,7 +90,10 @@ function FrameworkPage() {
           <div className="mt-14 space-y-16">
             {PHASES.map((p, i) => (
               <Reveal key={p.n} delay={i * 40}>
-                <div className="grid gap-8 border-t border-line pt-10 md:grid-cols-12">
+                <div
+                  id={`phase-${p.n}`}
+                  className="scroll-mt-28 grid gap-8 border-t border-line pt-10 md:grid-cols-12"
+                >
                   <div className="md:col-span-4">
                     <div className="flex items-baseline gap-4">
                       <span className="font-mono text-[0.9rem] text-gold-deep">{p.n}</span>

@@ -238,6 +238,16 @@ export function Header() {
       setPltOpen(false)
     }, 140)
   }
+  // Called when a menu item is chosen — collapse the mega-menu right away.
+  const closeMenus = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current)
+      closeTimer.current = null
+    }
+    setFwOpen(false)
+    setPltOpen(false)
+    setOpen(false)
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -283,6 +293,7 @@ export function Header() {
             >
               <Link
                 to="/framework"
+                onClick={closeMenus}
                 className={`flex items-center gap-1.5 font-sans text-[0.82rem] tracking-wide transition-colors ${linkCls}`}
                 activeProps={{ className: light ? 'text-canvas' : 'text-ink' }}
                 activeOptions={{ exact: false }}
@@ -307,6 +318,7 @@ export function Header() {
             >
               <Link
                 to="/platform"
+                onClick={closeMenus}
                 className={`flex items-center gap-1.5 font-sans text-[0.82rem] tracking-wide transition-colors ${linkCls}`}
                 activeProps={{ className: light ? 'text-canvas' : 'text-ink' }}
                 activeOptions={{ exact: false }}
@@ -390,6 +402,8 @@ export function Header() {
                         <li key={it}>
                           <Link
                             to="/framework"
+                            hash={`phase-${layer.code}`}
+                            onClick={closeMenus}
                             className="link-line font-sans text-[0.86rem] text-ink-60 hover:text-ink"
                           >
                             {it}
@@ -410,6 +424,8 @@ export function Header() {
                               <li key={it}>
                                 <Link
                                   to="/framework"
+                                  hash={`phase-${layer.code}`}
+                                  onClick={closeMenus}
                                   className="link-line font-sans text-[0.84rem] text-ink-60 hover:text-ink"
                                 >
                                   {it}
@@ -431,7 +447,7 @@ export function Header() {
                 <p className="relative mt-3 font-display text-ink" style={{ fontSize: '1.25rem', lineHeight: 1.2 }}>
                   Revenue, cost and product, rebuilt together.
                 </p>
-                <Link to="/framework" className="relative link-line mt-4 inline-block font-sans text-[0.82rem] text-gold-deep">
+                <Link to="/framework" onClick={closeMenus} className="relative link-line mt-4 inline-block font-sans text-[0.82rem] text-gold-deep">
                   See the full framework
                 </Link>
               </div>
@@ -462,6 +478,7 @@ export function Header() {
                         href={c.href}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={closeMenus}
                         className="group block"
                       >
                         <span className="font-display text-ink transition-colors group-hover:text-gold-deep" style={{ fontSize: '1.15rem', fontWeight: 600 }}>
@@ -484,7 +501,7 @@ export function Header() {
                 <p className="relative mt-3 font-display text-ink" style={{ fontSize: '1.3rem', lineHeight: 1.2 }}>
                   A captive technology group, deployed into every deal.
                 </p>
-                <Link to="/platform" className="relative link-line mt-4 inline-block font-sans text-[0.82rem] text-gold-deep">
+                <Link to="/platform" onClick={closeMenus} className="relative link-line mt-4 inline-block font-sans text-[0.82rem] text-gold-deep">
                   Explore the platform
                 </Link>
               </div>
