@@ -18,7 +18,7 @@ const BEATS: Beat[] = [
   { chapter: 'The trap', text: 'A strong entry multiple is not a return.' },
   { chapter: 'The truth', text: 'Value is made during the hold, or it is not made at all.' },
   { chapter: 'The difference', text: 'So we do not advise from the sidelines. We operate.' },
-  { chapter: 'The promise', text: 'From day one, we build the number.', accent: true },
+  { chapter: 'The promise', text: 'From dayone, we build the number.', accent: true },
 ]
 
 const bg =

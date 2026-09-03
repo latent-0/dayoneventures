@@ -6,9 +6,9 @@ export const Route = createFileRoute('/firm')({
   head: () =>
     seo({
       path: '/firm',
-      title: 'The Firm · Day One Ventures',
+      title: 'The Firm · Dayone Ventures',
       description:
-        'Day One Ventures is a private equity operating firm. We believe value in software is manufactured in the holding period, so we own the operating work ourselves from day one.',
+        'Dayone Ventures is a private equity operating firm. We believe value in software is manufactured in the holding period, so we own the operating work ourselves from dayone.',
       keywords:
         'private equity operating firm, value creation, operating partner model, software buyouts, EBITDA growth',
     }),
@@ -33,7 +33,7 @@ const PRINCIPLES = [
   },
   {
     n: '04',
-    t: 'Build the exit on day one.',
+    t: 'Build the exit on dayone.',
     b: 'A diligence-grade data room and a clean equity story are not an end-of-hold sprint. They are a discipline we run from the start.',
   },
   {
@@ -67,7 +67,7 @@ function FirmPage() {
               Value is manufactured, not discovered.
             </h1>
             <p className="text-lead mt-8 max-w-2xl text-canvas/65">
-              Day One Ventures is a private equity operating firm for
+              Dayone Ventures is a private equity operating firm for
               lower-middle-market software. We take control or structured
               positions in businesses we can genuinely improve, and then we do
               the improving ourselves.

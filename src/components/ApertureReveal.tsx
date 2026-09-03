@@ -9,7 +9,7 @@ import { useRef } from 'react'
 import { Container } from './site'
 
 /* A circular aperture opens from the centre, replacing the "usual model"
-   (ivory) with the "Day One model" (vault). Distinct from a diagonal band. */
+   (ivory) with the "Dayone model" (vault). Distinct from a diagonal band. */
 export function ApertureReveal() {
   const reduce = useReducedMotion()
   const ref = useRef<HTMLDivElement>(null)
@@ -33,7 +33,7 @@ export function ApertureReveal() {
     return (
       <section className="relative overflow-hidden bg-night text-canvas">
         <Container className="relative py-28 text-center">
-          <p className="eyebrow eyebrow-light">The Day One model</p>
+          <p className="eyebrow eyebrow-light">The Dayone model</p>
           <h3 className="mt-5 font-display" style={{ fontSize: 'clamp(1.8rem,3.6vw,3rem)', fontWeight: 500 }}>
             An operating team that owns the outcome.
           </h3>
@@ -60,7 +60,7 @@ export function ApertureReveal() {
           <UsualLayer />
         </motion.div>
 
-        {/* aperture layer — the Day One model, on vault */}
+        {/* aperture layer — the Dayone model, on vault */}
         <motion.div style={{ clipPath: clip }} className="absolute inset-0">
           <motion.div style={{ scale: panelScale }} className="absolute inset-0">
             <div
@@ -120,7 +120,7 @@ function DayOneLayer() {
   return (
     <div className="flex h-full items-center justify-center px-6 text-center">
       <div className="max-w-2xl">
-        <p className="eyebrow eyebrow-light">The Day One model</p>
+        <p className="eyebrow eyebrow-light">The Dayone model</p>
         <h3
           className="mt-5 font-display text-canvas"
           style={{ fontSize: 'clamp(1.9rem,4.4vw,3.6rem)', fontWeight: 500, lineHeight: 1.1 }}

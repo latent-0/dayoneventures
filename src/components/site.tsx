@@ -112,7 +112,7 @@ export function Wordmark({
         className="font-display"
         style={{ color, fontSize: '1.28rem', fontWeight: 500, letterSpacing: '0.01em' }}
       >
-        Day One
+        Dayone
       </span>
       <span
         className="font-display"
@@ -143,13 +143,13 @@ const NAV = [
 
 export const PLATFORM_MENU = [
   {
-    name: 'Day One Technologies',
+    name: 'Dayone Technologies',
     role: 'Technology execution, owned',
     href: 'https://day1tech.com',
     display: 'day1tech.com',
   },
   {
-    name: 'DayOneX',
+    name: 'DayoneX',
     role: 'Enterprise AI & platform systems',
     href: 'https://dayonex.org',
     display: 'dayonex.org',
@@ -238,7 +238,7 @@ export function Header() {
     >
       <Container width="wide">
         <div className="flex h-[4.75rem] items-center justify-between">
-          <Link to="/" aria-label="Day One Ventures, home" onClick={() => setOpen(false)}>
+          <Link to="/" aria-label="Dayone Ventures, home" onClick={() => setOpen(false)}>
             <Wordmark tone={light ? 'light' : 'ink'} />
           </Link>
 
@@ -422,7 +422,7 @@ export function Header() {
           <Container width="wide" className="py-10">
             <div className="grid gap-x-12 gap-y-8 md:grid-cols-2">
               <div>
-                <p className="eyebrow">The Day One group</p>
+                <p className="eyebrow">The Dayone group</p>
                 <ul className="mt-5 space-y-5">
                   {PLATFORM_MENU.map((c) => (
                     <li key={c.name}>
@@ -517,7 +517,7 @@ export function Footer() {
             <p className="mt-6 max-w-sm font-sans text-[0.95rem] leading-relaxed text-canvas/60">
               A private equity operating firm. We build equity value in lower
               middle market software companies, and we do the operating work
-              ourselves from day one of ownership.
+              ourselves from dayone of ownership.
             </p>
             <p className="equation mt-6 text-[0.82rem] text-gold-soft">
               Equity Value = Earnings × Multiple
@@ -579,7 +579,7 @@ export function Footer() {
 
         <hr className="mt-14 border-0 border-t border-night-line" />
         <div className="mt-6 flex flex-col justify-between gap-3 font-sans text-[0.78rem] text-canvas/45 sm:flex-row">
-          <p>© {new Date().getFullYear()} Day One Ventures. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Dayone Ventures. All rights reserved.</p>
           <p className="tracking-wide">Diagnose · Operate · Compound · Realize</p>
         </div>
       </Container>

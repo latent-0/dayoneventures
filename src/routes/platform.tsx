@@ -6,9 +6,9 @@ export const Route = createFileRoute('/platform')({
   head: () =>
     seo({
       path: '/platform',
-      title: 'The Platform · Day One Ventures',
+      title: 'The Platform · Dayone Ventures',
       description:
-        'Day One Ventures runs a captive technology group. Day One Technologies and DayOneX rebuild the product, data and cost base inside every company we back, which is how our operating plan actually gets built.',
+        'Dayone Ventures runs a captive technology group. Dayone Technologies and DayoneX rebuild the product, data and cost base inside every company we back, which is how our operating plan actually gets built.',
       keywords:
         'captive technology group, operating partner, software value creation, AI platforms, offshore delivery, product engineering, private equity build capability',
     }),
@@ -17,7 +17,7 @@ export const Route = createFileRoute('/platform')({
 
 const COMPANIES = [
   {
-    name: 'Day One Technologies',
+    name: 'Dayone Technologies',
     role: 'Technology execution, owned',
     href: 'https://day1tech.com',
     display: 'day1tech.com',
@@ -33,11 +33,11 @@ const COMPANIES = [
     stat: { k: '100+', v: 'production platforms delivered' },
   },
   {
-    name: 'DayOneX',
+    name: 'DayoneX',
     role: 'Enterprise AI and platform systems',
     href: 'https://dayonex.org',
     display: 'dayonex.org',
-    body: 'The build shop behind the group. DayOneX ships production intelligent systems and runs delivery across India and the United States, which is where the margin work and the product moat get done.',
+    body: 'The build shop behind the group. DayoneX ships production intelligent systems and runs delivery across India and the United States, which is where the margin work and the product moat get done.',
     tags: [
       'Machine learning',
       'Computer vision',
@@ -172,8 +172,8 @@ function PlatformPage() {
           <Reveal delay={90}>
             <blockquote className="mt-8">
               <p className="font-display text-ink" style={{ fontSize: 'clamp(1.7rem,3.4vw,2.75rem)', lineHeight: 1.16 }}>
-                “The capital comes from Day One Ventures. The build comes from Day
-                One Technologies and DayOneX. Same name, same standard, same
+                “The capital comes from Dayone Ventures. The build comes from
+                Dayone Technologies and DayoneX. Same name, same standard, same
                 number.”
               </p>
             </blockquote>

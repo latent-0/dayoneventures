@@ -7,9 +7,9 @@ export const Route = createFileRoute('/framework')({
   head: () =>
     seo({
       path: '/framework',
-      title: 'The Framework · Day One Ventures',
+      title: 'The Framework · Dayone Ventures',
       description:
-        'Diagnose, Operate, Compound, Realize. The four-phase value-creation framework Day One Ventures runs inside every software company it owns.',
+        'Diagnose, Operate, Compound, Realize. The four-phase value-creation framework Dayone Ventures runs inside every software company it owns.',
       keywords:
         'private equity value creation framework, operating partner, EBITDA expansion, multiple expansion, exit readiness, SaaS diligence',
     }),

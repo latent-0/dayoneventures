@@ -87,7 +87,7 @@ export function StatBlock() {
         </motion.div>
 
         <p className="mt-16 max-w-xl font-sans text-[0.78rem] leading-relaxed text-ink-45">
-          Reflects Day One Ventures' operating thesis and the direction of
+          Reflects Dayone Ventures' operating thesis and the direction of
           value-creation in modern private equity. Figures illustrate our focus,
           not a promise of outcomes.
         </p>

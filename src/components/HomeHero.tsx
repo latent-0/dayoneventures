@@ -15,7 +15,7 @@ const HEADER = '4.75rem'
 /* Save the hero photograph here: public/hero.jpg (a dark night skyline works best) */
 const HERO_IMAGE = '/hero.jpg'
 
-const TITLE_LINES = ['Equity value is', 'engineered.', 'From day one.']
+const TITLE_LINES = ['Equity value is', 'engineered.', 'From dayone.']
 
 const lineMask: Variants = {
   hidden: {},
@@ -200,7 +200,7 @@ function ReducedHero() {
       </div>
       <Container width="wide" className="relative flex min-h-[100svh] flex-col justify-center pt-[4.75rem]">
         <p className="mb-6 eyebrow">Private equity · Operating partners</p>
-        <h1 className="text-display-xl max-w-3xl">Equity value is engineered. From day one.</h1>
+        <h1 className="text-display-xl max-w-3xl">Equity value is engineered. From dayone.</h1>
       </Container>
     </section>
   )

@@ -7,9 +7,9 @@ export const Route = createFileRoute('/contact')({
   head: () =>
     seo({
       path: '/contact',
-      title: 'Contact · Day One Ventures',
+      title: 'Contact · Dayone Ventures',
       description:
-        'Bring us a company you own or are considering. The first conversation is a diagnostic, not a pitch. Reach Day One Ventures at contact@dayoneventurespartners.com.',
+        'Bring us a company you own or are considering. The first conversation is a diagnostic, not a pitch. Reach Dayone Ventures at contact@dayoneventurespartners.com.',
     }),
   component: ContactPage,
 })
@@ -39,7 +39,7 @@ function ContactPage() {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const subject = `Day One enquiry: ${form.org || form.name || 'new'}`
+    const subject = `Dayone enquiry: ${form.org || form.name || 'new'}`
     const body = [
       `Name: ${form.name}`,
       `Organisation: ${form.org}`,

@@ -10,10 +10,10 @@ import appCss from '../styles.css?url'
 import { Header, Footer, Container } from '../components/site'
 
 const SITE = {
-  name: 'Day One Ventures',
+  name: 'Dayone Ventures',
   url: 'https://www.dayoneventurespartners.com',
   description:
-    'Day One Ventures is a private equity operating firm for lower middle market software companies. We diagnose value leakage, deploy revenue, margin and product engines, and build exit readiness, and we do it hands on from day one of ownership.',
+    'Dayone Ventures is a private equity operating firm for lower middle market software companies. We diagnose value leakage, deploy revenue, margin and product engines, and build exit readiness, and we do it hands on from dayone of ownership.',
 }
 
 const orgSchema = {
@@ -21,13 +21,13 @@ const orgSchema = {
   '@type': ['Organization', 'FinancialService'],
   '@id': `${SITE.url}/#organization`,
   name: SITE.name,
-  alternateName: 'Day One',
+  alternateName: 'Dayone',
   description: SITE.description,
   disambiguatingDescription:
-    'Day One Ventures is a private equity operating firm that partners with sponsors and management teams of lower-middle-market ($5M–$40M ARR) software and tech-enabled businesses to expand EBITDA and multiple through a four-phase value-creation framework: Diagnose, Operate, Compound, Realize.',
+    'Dayone Ventures is a private equity operating firm that partners with sponsors and management teams of lower-middle-market ($5M–$40M ARR) software and tech-enabled businesses to expand EBITDA and multiple through a four-phase value-creation framework: Diagnose, Operate, Compound, Realize.',
   url: SITE.url,
   email: 'contact@dayoneventurespartners.com',
-  slogan: 'Value, built from day one.',
+  slogan: 'Value, built from dayone.',
   address: {
     '@type': 'PostalAddress',
     streetAddress: '11 Broadway, Suite 615',
@@ -71,7 +71,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Day One Ventures · Operating-Partner Private Equity for Software' },
+      { title: 'Dayone Ventures · Operating-Partner Private Equity for Software' },
       { name: 'description', content: SITE.description },
       { name: 'theme-color', content: '#17120c' },
       {
@@ -82,12 +82,12 @@ export const Route = createRootRoute({
       { name: 'author', content: SITE.name },
       { property: 'og:type', content: 'website' },
       { property: 'og:site_name', content: SITE.name },
-      { property: 'og:title', content: 'Day One Ventures · Operating-Partner Private Equity' },
+      { property: 'og:title', content: 'Dayone Ventures · Operating-Partner Private Equity' },
       { property: 'og:description', content: SITE.description },
       { property: 'og:url', content: SITE.url },
       { property: 'og:locale', content: 'en_US' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Day One Ventures' },
+      { name: 'twitter:title', content: 'Dayone Ventures' },
       { name: 'twitter:description', content: SITE.description },
     ],
     links: [

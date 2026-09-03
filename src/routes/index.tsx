@@ -11,9 +11,9 @@ export const Route = createFileRoute('/')({
   head: () =>
     seo({
       path: '/',
-      title: 'Day One Ventures · Operating-Partner Private Equity for Software',
+      title: 'Dayone Ventures · Operating-Partner Private Equity for Software',
       description:
-        'Day One Ventures is an operating-partner private equity firm for lower middle market software. We diagnose value leakage, deploy revenue, margin and product engines, and build exit readiness, and we do it hands on from day one of ownership.',
+        'Dayone Ventures is an operating-partner private equity firm for lower middle market software. We diagnose value leakage, deploy revenue, margin and product engines, and build exit readiness, and we do it hands on from dayone of ownership.',
       keywords:
         'private equity, operating partner, value creation, lower middle market software, EBITDA expansion, multiple expansion, net revenue retention, exit readiness, buyout, SaaS private equity',
     }),
@@ -96,7 +96,7 @@ function TheThesis() {
                 We work the other way. We grow earnings by rebuilding the revenue
                 and margin engines, and we grow the multiple by making that growth
                 durable enough to survive diligence. We engineer both, and both
-                start on day one rather than at the exit. Advice handed to a
+                start on dayone rather than at the exit. Advice handed to a
                 management team rarely closes that gap. Owning the work does.
               </p>
             </Reveal>
@@ -167,13 +167,13 @@ function Engagements() {
 
 const GROUP = [
   {
-    name: 'Day One Technologies',
+    name: 'Dayone Technologies',
     role: 'Technology execution, owned',
     href: 'https://day1tech.com',
     display: 'day1tech.com',
   },
   {
-    name: 'DayOneX',
+    name: 'DayoneX',
     role: 'Enterprise AI and platform systems',
     href: 'https://dayonex.org',
     display: 'dayonex.org',
@@ -267,7 +267,7 @@ function TheMoat() {
         </Reveal>
         <Reveal delay={220}>
           <Link to="/firm" className="link-line mt-8 inline-block font-sans text-[0.95rem]">
-            The thesis behind Day One →
+            The thesis behind Dayone →
           </Link>
         </Reveal>
       </Container>
@@ -334,8 +334,8 @@ function WhereWeFit() {
 
 const FAQ_ITEMS = [
   {
-    q: 'What is Day One Ventures?',
-    a: 'Day One Ventures is an operating-partner private equity firm for lower middle market software companies. One team owns value creation end to end. We diagnose the business, run the revenue, margin and product engines, and build exit readiness from the first day of ownership.',
+    q: 'What is Dayone Ventures?',
+    a: 'Dayone Ventures is an operating-partner private equity firm for lower middle market software companies. One team owns value creation end to end. We diagnose the business, run the revenue, margin and product engines, and build exit readiness from the first day of ownership.',
   },
   {
     q: 'How is this different from a traditional PE firm?',
