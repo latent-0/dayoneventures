@@ -213,6 +213,25 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [fwOpen, setFwOpen] = useState(false)
   const [pltOpen, setPltOpen] = useState(false)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Hover-intent: keep the mega-menu open while the pointer travels the gap
+  // between the trigger and the panel, and close on a short delay.
+  const hoverOpen = (which: 'fw' | 'plt') => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current)
+      closeTimer.current = null
+    }
+    setFwOpen(which === 'fw')
+    setPltOpen(which === 'plt')
+  }
+  const hoverClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    closeTimer.current = setTimeout(() => {
+      setFwOpen(false)
+      setPltOpen(false)
+    }, 140)
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -220,6 +239,13 @@ export function Header() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useEffect(
+    () => () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current)
+    },
+    [],
+  )
 
   // The hero sits on a light paper ground, so the nav stays dark throughout.
   const light = false
@@ -242,12 +268,12 @@ export function Header() {
             <Wordmark tone={light ? 'light' : 'ink'} />
           </Link>
 
-          <nav className="hidden items-center gap-9 md:flex">
+          <nav className="hidden items-center gap-9 self-stretch md:flex">
             {/* Framework — opens the mega-menu on hover */}
             <div
-              className="relative"
-              onMouseEnter={() => setFwOpen(true)}
-              onMouseLeave={() => setFwOpen(false)}
+              className="relative flex h-full items-center"
+              onMouseEnter={() => hoverOpen('fw')}
+              onMouseLeave={hoverClose}
             >
               <Link
                 to="/framework"
@@ -269,9 +295,9 @@ export function Header() {
 
             {/* Platform — opens the group mega-menu on hover */}
             <div
-              className="relative"
-              onMouseEnter={() => setPltOpen(true)}
-              onMouseLeave={() => setPltOpen(false)}
+              className="relative flex h-full items-center"
+              onMouseEnter={() => hoverOpen('plt')}
+              onMouseLeave={hoverClose}
             >
               <Link
                 to="/platform"
@@ -334,8 +360,8 @@ export function Header() {
       {/* Framework mega-menu (desktop) */}
       <div
         className={`absolute inset-x-0 top-full hidden md:block ${fwOpen ? '' : 'pointer-events-none'}`}
-        onMouseEnter={() => setFwOpen(true)}
-        onMouseLeave={() => setFwOpen(false)}
+        onMouseEnter={() => hoverOpen('fw')}
+        onMouseLeave={hoverClose}
       >
         <div
           className={`origin-top border-b border-line bg-canvas/97 backdrop-blur-md transition-all duration-300 ${
@@ -411,8 +437,8 @@ export function Header() {
       {/* Platform mega-menu (desktop) */}
       <div
         className={`absolute inset-x-0 top-full hidden md:block ${pltOpen ? '' : 'pointer-events-none'}`}
-        onMouseEnter={() => setPltOpen(true)}
-        onMouseLeave={() => setPltOpen(false)}
+        onMouseEnter={() => hoverOpen('plt')}
+        onMouseLeave={hoverClose}
       >
         <div
           className={`origin-top border-b border-line bg-canvas/97 backdrop-blur-md transition-all duration-300 ${

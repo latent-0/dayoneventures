@@ -74,11 +74,6 @@ export function HorizonScroll() {
             <Panel key={i} index={i} total={n} beat={b} progress={scrollYProgress} />
           ))}
         </motion.div>
-
-        {/* fixed chapter counter */}
-        <div className="pointer-events-none absolute bottom-8 left-6 z-20 font-mono text-[0.8rem] text-canvas/45 sm:left-10">
-          <Counter progress={scrollYProgress} total={n} />
-        </div>
       </div>
     </section>
   )
@@ -87,14 +82,6 @@ export function HorizonScroll() {
 function ProgressBar({ progress }: { progress: MotionValue<number> }) {
   const w = useTransform(progress, [0, 1], ['0%', '100%'])
   return <motion.div className="h-px bg-gold-soft" style={{ width: w }} />
-}
-
-function Counter({ progress, total }: { progress: MotionValue<number>; total: number }) {
-  const label = useTransform(progress, (v) => {
-    const i = Math.min(total, Math.max(1, Math.floor(v * total) + 1))
-    return `0${i} / 0${total}`
-  })
-  return <motion.span>{label}</motion.span>
 }
 
 function Panel({
@@ -116,31 +103,12 @@ function Panel({
     [center - seg, center, center + seg],
     [1, 0, -1],
   )
-  // Statement drifts opposite to travel for depth; ghost numeral parallax.
+  // Statement drifts opposite to travel for depth.
   const textX = useTransform(local, [-1, 0, 1], [120, 0, -120])
-  const numX = useTransform(local, [-1, 0, 1], [220, 0, -220])
   const opacity = useTransform(local, [-1, -0.5, 0, 0.5, 1], [0, 0.5, 1, 0.5, 0])
 
   return (
     <div className="relative flex h-full w-screen shrink-0 items-center">
-      {/* ghost numeral */}
-      <motion.span
-        aria-hidden
-        style={{ x: numX }}
-        className="pointer-events-none absolute right-[4vw] top-1/2 -translate-y-1/2 font-display leading-none"
-      >
-        <span
-          style={{
-            fontSize: 'clamp(14rem, 34vw, 34rem)',
-            fontWeight: 400,
-            color: 'transparent',
-            WebkitTextStroke: '1px rgba(232,99,29,0.22)',
-          }}
-        >
-          {index + 1}
-        </span>
-      </motion.span>
-
       <motion.div
         style={{ x: textX, opacity }}
         className="relative z-10 mx-auto w-full max-w-[76rem] px-6 sm:px-10 lg:px-16"
