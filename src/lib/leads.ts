@@ -34,7 +34,7 @@ export type LeadResult = { ok: true } | { ok: false; error: string }
 const DEFAULTS = {
   to: 'contact@dayoneventurepartners.com',
   cc: 'kim@day1tech.com',
-  from: 'Dayone Ventures <website@dayoneventurepartners.com>',
+  from: 'Dayone Ventures <contact@dayoneventurepartners.com>',
 }
 
 const str = (v: unknown, max: number) =>
