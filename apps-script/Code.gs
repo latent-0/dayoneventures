@@ -104,6 +104,21 @@ function notify_(body) {
   }
 }
 
+/**
+ * Run this ONCE from the Apps Script editor (Run ▸ authorize) after adding the
+ * email code. It forces the consent screen so the "send email as you" scope is
+ * granted, then sends one test message. After it succeeds, redeploy a new
+ * version so the web app picks up the new permission.
+ */
+function authorize() {
+  MailApp.sendEmail({
+    to: NOTIFY_TO,
+    subject: 'Apps Script authorized',
+    body: 'The lead sink can now send email notifications.',
+    name: 'Dayone Ventures Website',
+  });
+}
+
 function doGet() {
   return json({ ok: true, note: 'Dayone lead sink. POST JSON to append a row.' });
 }
