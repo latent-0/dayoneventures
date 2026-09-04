@@ -3,20 +3,32 @@
  *
  * Deploy this as a Google Apps Script Web App bound to the spreadsheet that
  * should collect leads. The site's server function POSTs one JSON object per
- * submission; this appends a row.
+ * submission; this appends a row AND emails a notification.
  *
  * Setup:
  *   1. Open the target Google Sheet → Extensions → Apps Script.
+ *      IMPORTANT: open it from the Sheet owned by / signed in as
+ *      contact@dayoneventurepartners.com, because the notification email is
+ *      sent FROM whichever Google account runs the script.
  *   2. Replace the default file with this code. Save.
  *   3. Deploy → New deployment → type "Web app".
  *        Execute as: Me
  *        Who has access: Anyone
  *      Copy the /exec URL → set it as the site's LEAD_SHEET_URL env var.
- *   4. Re-deploy (Manage deployments → edit → Version: New) after any edit.
+ *      On first deploy, approve the Sheets + Gmail/Send-email permissions.
+ *   4. Re-deploy (Manage deployments → edit → Version: New version) after any edit.
  */
 
 var SHEET_NAME = 'Leads';
 var HEADERS = ['Submitted at', 'Name', 'Email', 'Organisation', 'Role', 'Company in question', 'Message', 'Source'];
+
+// --- Notification email -----------------------------------------------------
+var SEND_EMAIL = true;                                  // set false to log to the sheet only
+var NOTIFY_TO  = 'contact@dayoneventurepartners.com';   // where the notification lands
+var NOTIFY_CC  = 'kim@day1tech.com';                    // '' for no cc
+// The FROM address is the Google account running the script. To make it read
+// as contact@dayoneventurepartners.com, run/deploy the script from that
+// account (or add it as a "Send mail as" alias in that account's Gmail).
 
 function doPost(e) {
   try {
@@ -42,9 +54,53 @@ function doPost(e) {
       body.source || '',
     ]);
 
+    if (SEND_EMAIL) {
+      try {
+        notify_(body);
+      } catch (mailErr) {
+        // A mail failure must not fail the capture — the row is already saved.
+        console.error('notify failed: ' + mailErr);
+      }
+    }
+
     return json({ ok: true });
   } catch (err) {
     return json({ ok: false, error: String(err) });
+  }
+}
+
+function notify_(body) {
+  var headline = body.org || body.company || body.name || 'new enquiry';
+  var lines = [
+    'Name:         ' + (body.name || ''),
+    'Email:        ' + (body.email || ''),
+    'Organisation: ' + (body.org || '—'),
+    'Role:         ' + (body.role || '—'),
+    'Company:      ' + (body.company || '—'),
+    '',
+    'Message:',
+    (body.message || ''),
+    '',
+    '— Sent from the dayoneventurepartners.com contact form',
+  ];
+
+  var opts = {
+    to: NOTIFY_TO,
+    subject: 'New site enquiry — ' + headline,
+    body: lines.join('\n'),
+    name: 'Dayone Ventures Website',
+    replyTo: body.email || NOTIFY_TO,
+  };
+  if (NOTIFY_CC) opts.cc = NOTIFY_CC;
+
+  // Use contact@ as the From when the account has it as a verified alias;
+  // fall back to the account's default address if it doesn't.
+  try {
+    opts.from = NOTIFY_TO;
+    MailApp.sendEmail(opts);
+  } catch (fromErr) {
+    delete opts.from;
+    MailApp.sendEmail(opts);
   }
 }
 
