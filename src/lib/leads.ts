@@ -104,9 +104,9 @@ async function appendToSheet(data: LeadInput): Promise<boolean> {
     })
 
     const body = await res.text().catch(() => '')
-    // The script returns {"ok":true}; treat a 2xx without an explicit error as success.
-    if (res.ok && !/"ok"\s*:\s*false/.test(body)) return true
-    console.error('[lead] sheet append failed', res.status, body)
+    // The Apps Script doPost returns {"ok":true} as JSON on a successful append.
+    if (res.ok && /"ok"\s*:\s*true/.test(body)) return true
+    console.error('[lead] sheet append failed', res.status, body.slice(0, 500))
     return false
   } catch (err) {
     console.error('[lead] sheet append error', err)
