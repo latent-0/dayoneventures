@@ -95,7 +95,7 @@ export function Reveal({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Wordmark  ·  text lockup, no icon                                  */
+/*  Wordmark  ·  mark + text lockup                                    */
 /* ------------------------------------------------------------------ */
 
 export function Wordmark({
@@ -107,7 +107,8 @@ export function Wordmark({
 }) {
   const color = tone === 'light' ? 'var(--color-canvas)' : 'var(--color-ink)'
   return (
-    <span className={`inline-flex items-baseline gap-2.5 leading-none ${className}`}>
+    <span className={`inline-flex items-center gap-2.5 leading-none ${className}`}>
+      <img src="/logo-mark.png" alt="" aria-hidden className="h-[1.55rem] w-auto shrink-0" />
       <span
         className="font-display"
         style={{
