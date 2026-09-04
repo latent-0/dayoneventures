@@ -54,16 +54,21 @@ function doPost(e) {
       body.source || '',
     ]);
 
+    var result = { ok: true, sheet: ss.getName() };
+
     if (SEND_EMAIL) {
       try {
         notify_(body);
+        result.mailed = true;
       } catch (mailErr) {
         // A mail failure must not fail the capture — the row is already saved.
+        result.mailed = false;
+        result.mailError = String(mailErr);
         console.error('notify failed: ' + mailErr);
       }
     }
 
-    return json({ ok: true });
+    return json(result);
   } catch (err) {
     return json({ ok: false, error: String(err) });
   }
