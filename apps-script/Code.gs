@@ -8,14 +8,11 @@
  * Setup:
  *   1. Open the target Google Sheet → Extensions → Apps Script.
  *   2. Replace the default file with this code. Save.
- *   3. (Optional) Set a shared secret: Project Settings → Script properties →
- *      add  LEAD_TOKEN = <a long random string>.  Use the same value for the
- *      site's LEAD_SHEET_TOKEN env var.
- *   4. Deploy → New deployment → type "Web app".
+ *   3. Deploy → New deployment → type "Web app".
  *        Execute as: Me
  *        Who has access: Anyone
  *      Copy the /exec URL → set it as the site's LEAD_SHEET_URL env var.
- *   5. Re-deploy (Manage deployments → edit → Version: New) after any edit.
+ *   4. Re-deploy (Manage deployments → edit → Version: New) after any edit.
  */
 
 var SHEET_NAME = 'Leads';
@@ -24,11 +21,6 @@ var HEADERS = ['Submitted at', 'Name', 'Email', 'Organisation', 'Role', 'Company
 function doPost(e) {
   try {
     var body = JSON.parse((e && e.postData && e.postData.contents) || '{}');
-
-    var expected = PropertiesService.getScriptProperties().getProperty('LEAD_TOKEN');
-    if (expected && body.token !== expected) {
-      return json({ ok: false, error: 'unauthorized' });
-    }
 
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(SHEET_NAME);

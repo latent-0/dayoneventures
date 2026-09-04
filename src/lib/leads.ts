@@ -8,8 +8,7 @@ import { createServerFn } from '@tanstack/react-start'
 /*  delivered to two places, each turned on by its own env var:        */
 /*                                                                     */
 /*   • Google Sheet  — set LEAD_SHEET_URL to an Apps Script web-app    */
-/*     URL (see apps-script/Code.gs). Optional LEAD_SHEET_TOKEN adds   */
-/*     a shared secret the script checks.                              */
+/*     URL (see apps-script/Code.gs). The lead is appended as a row.   */
 /*   • Email (Resend) — set RESEND_API_KEY. Sends to LEAD_TO_EMAIL     */
 /*     with a copy to LEAD_CC_EMAIL, reply-to the sender.              */
 /*                                                                     */
@@ -91,7 +90,6 @@ async function appendToSheet(data: LeadInput): Promise<boolean> {
       // Apps Script web apps 302 to googleusercontent.com; fetch follows it.
       redirect: 'follow',
       body: JSON.stringify({
-        token: process.env.LEAD_SHEET_TOKEN || '',
         submittedAt: new Date().toISOString(),
         name: data.name,
         email: data.email,
