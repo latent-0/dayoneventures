@@ -606,6 +606,11 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                <a href="tel:+18566538460" className="link-line">
+                  +1 856-653-8460
+                </a>
+              </li>
+              <li>
                 <a
                   href="https://www.linkedin.com/"
                   target="_blank"
@@ -617,10 +622,13 @@ export function Footer() {
               </li>
             </ul>
             <address className="mt-4 font-sans text-[0.9rem] not-italic leading-relaxed text-canvas/50">
-              11 Broadway, Suite 615
-              <br />
-              New York, NY
+              2 Virginia Rd, Glassboro, NJ 08028
             </address>
+            <p className="mt-3 font-sans text-[0.82rem] leading-relaxed text-canvas/40">
+              DayOne Venture Partners, LLC &middot; USA
+              <br />
+              Audiencetech Intelligence Private Limited
+            </p>
             <Link to="/contact" className="btn btn-light mt-6 !py-2.5 !px-5 text-[0.82rem]">
               Talk to us
             </Link>
