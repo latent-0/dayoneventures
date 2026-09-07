@@ -624,11 +624,6 @@ export function Footer() {
             <address className="mt-4 font-sans text-[0.9rem] not-italic leading-relaxed text-canvas/50">
               2 Virginia Rd, Glassboro, NJ 08028
             </address>
-            <p className="mt-3 font-sans text-[0.82rem] leading-relaxed text-canvas/40">
-              DayOne Venture Partners, LLC &middot; USA
-              <br />
-              Audiencetech Intelligence Private Limited
-            </p>
             <Link to="/contact" className="btn btn-light mt-6 !py-2.5 !px-5 text-[0.82rem]">
               Talk to us
             </Link>
@@ -637,7 +632,10 @@ export function Footer() {
 
         <hr className="mt-14 border-0 border-t border-night-line" />
         <div className="mt-6 flex flex-col justify-between gap-3 font-sans text-[0.78rem] text-canvas/45 sm:flex-row">
-          <p>© {new Date().getFullYear()} Dayone Ventures. All rights reserved.</p>
+          <p>
+            DayOne Venture Partners, LLC &middot; USA &middot; Audiencetech
+            Intelligence Private Limited
+          </p>
           <p className="tracking-wide">Diagnose · Operate · Compound · Realize</p>
         </div>
       </Container>
