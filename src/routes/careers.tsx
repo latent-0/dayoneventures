@@ -1,54 +1,41 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Container, Eyebrow, Reveal, Rosette } from '../components/site'
 import { seo } from '../lib/seo'
-import { CAREER_ROLE, LEAD_ROLES, submitLead, type LeadInput } from '../lib/leads'
+import { submitApplication, type ApplicationInput } from '../lib/leads'
 
-export const Route = createFileRoute('/contact')({
+export const Route = createFileRoute('/careers')({
   head: () =>
     seo({
-      path: '/contact',
-      title: 'Contact · Dayone Ventures',
+      path: '/careers',
+      title: 'Careers · Dayone Ventures',
       description:
-        'Bring us a company you own or are considering. The first conversation is a diagnostic, not a pitch. Reach Dayone Ventures at contact@dayoneventurepartners.com.',
+        'We do not have a self-serve job board yet, but we keep every application on file. Tell us what you do and we will reach out when it fits.',
     }),
-  component: ContactPage,
+  component: CareersPage,
 })
 
 const EMAIL = 'contact@dayoneventurepartners.com'
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
-const EMPTY: LeadInput = {
+const EMPTY: ApplicationInput = {
   name: '',
   email: '',
-  org: '',
-  role: LEAD_ROLES[0],
-  company: '',
+  area: '',
+  link: '',
   message: '',
   company_website: '',
 }
 
-function ContactPage() {
-  const navigate = useNavigate()
-  const [form, setForm] = useState<LeadInput>(EMPTY)
+function CareersPage() {
+  const [form, setForm] = useState<ApplicationInput>(EMPTY)
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
-  const set = (k: keyof LeadInput) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  const set = (k: keyof ApplicationInput) => (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => setForm((f) => ({ ...f, [k]: e.target.value }))
-
-  // Job seekers land on this form more than anyone would like — catch that
-  // intent the moment they select it and send them to the careers page
-  // instead of letting it sit in the business-lead pipeline.
-  const onRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value === CAREER_ROLE) {
-      navigate({ to: '/careers' })
-      return
-    }
-    setForm((f) => ({ ...f, role: e.target.value }))
-  }
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -56,7 +43,7 @@ function ContactPage() {
     setStatus('sending')
     setErrorMsg('')
     try {
-      const res = await submitLead({ data: form })
+      const res = await submitApplication({ data: form })
       if (res.ok) {
         setStatus('sent')
       } else {
@@ -87,14 +74,14 @@ function ContactPage() {
           {/* Left — the pitch */}
           <div className="md:col-span-5">
             <Reveal>
-              <Eyebrow className="eyebrow-light">Contact</Eyebrow>
+              <Eyebrow className="eyebrow-light">Careers</Eyebrow>
               <h1 className="text-display-lg mt-6 text-canvas">
-                A diagnostic, not a pitch.
+                No open roles posted right now.
               </h1>
               <p className="mt-6 max-w-md font-sans text-[1.05rem] leading-relaxed text-canvas/65">
-                Bring us a company you own, or one you are looking at. We will
-                map where the value is leaking and what it would take to build it
-                back, before anyone commits to anything.
+                We are a small operating team, so we hire in bursts rather
+                than running a live board. Leave your details below and we
+                will reach out directly if something opens up that fits.
               </p>
             </Reveal>
             <Reveal delay={120}>
@@ -106,27 +93,11 @@ function ContactPage() {
                   </a>
                 </div>
                 <div>
-                  <p className="eyebrow text-gold-soft">Office</p>
-                  <address className="mt-2 font-sans text-[0.98rem] not-italic leading-relaxed text-canvas/65">
-                    2 Virginia Rd
-                    <br />
-                    Glassboro, NJ 08028
-                  </address>
-                </div>
-                <div>
                   <p className="eyebrow text-gold-soft">Best for</p>
                   <p className="mt-2 font-sans text-[0.98rem] text-canvas/65">
-                    Sponsors, independent sponsors, and founders of software
-                    companies at $5–40M ARR.
+                    Operators, engineers and analysts who want to work inside
+                    the companies we back, not on the sidelines of them.
                   </p>
-                </div>
-                <div className="flex flex-col gap-1.5 border-t border-night-line pt-5 font-sans text-[0.85rem] text-canvas/50">
-                  <Link to="/start-a-project" className="link-line inline-block w-fit text-canvas/70">
-                    Looking to build a product instead? →
-                  </Link>
-                  <Link to="/careers" className="link-line inline-block w-fit text-canvas/70">
-                    Looking for a job at Dayone? →
-                  </Link>
                 </div>
               </div>
             </Reveal>
@@ -139,12 +110,12 @@ function ContactPage() {
                 <div className="rounded-2xl border border-night-line bg-night-2 p-7 sm:p-9">
                   <p className="eyebrow text-gold-soft">Received</p>
                   <h2 className="mt-4 font-display text-canvas" style={{ fontSize: '1.6rem' }}>
-                    Thank you — your note is with us.
+                    Thanks — you're on file.
                   </h2>
                   <p className="mt-4 font-sans text-[0.98rem] leading-relaxed text-canvas/65">
-                    We read every enquiry ourselves and will reply to{' '}
-                    <span className="text-canvas">{form.email}</span> within two
-                    business days, usually sooner.
+                    We keep every application and reach out when something
+                    fits. If it's urgent, email us directly at{' '}
+                    <a href={`mailto:${EMAIL}`} className="link-line text-canvas">{EMAIL}</a>.
                   </p>
                   <button
                     type="button"
@@ -181,48 +152,45 @@ function ContactPage() {
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <Field label="Your name">
-                      <input required value={form.name} onChange={set('name')} className={inputCls} placeholder="Jane Partner" />
+                      <input required value={form.name} onChange={set('name')} className={inputCls} placeholder="Jane Doe" />
                     </Field>
-                    <Field label="Work email">
+                    <Field label="Email">
                       <input
                         required
                         type="email"
                         value={form.email}
                         onChange={set('email')}
                         className={inputCls}
-                        placeholder="jane@fund.com"
+                        placeholder="jane@email.com"
                       />
                     </Field>
                   </div>
                   <div className="mt-5 grid gap-5 sm:grid-cols-2">
-                    <Field label="Organisation">
-                      <input value={form.org} onChange={set('org')} className={inputCls} placeholder="Fund or company" />
+                    <Field label="Area of interest">
+                      <input
+                        value={form.area}
+                        onChange={set('area')}
+                        className={inputCls}
+                        placeholder="Engineering, operations, growth…"
+                      />
                     </Field>
-                    <Field label="You are a">
-                      <select value={form.role} onChange={onRoleChange} className={inputCls}>
-                        {LEAD_ROLES.map((r) => (
-                          <option key={r} value={r} style={{ color: '#16130c' }}>{r}</option>
-                        ))}
-                        <option value={CAREER_ROLE} style={{ color: '#16130c' }}>
-                          — {CAREER_ROLE}
-                        </option>
-                      </select>
-                    </Field>
-                  </div>
-                  <div className="mt-5">
-                    <Field label="Company in question">
-                      <input value={form.company} onChange={set('company')} className={inputCls} placeholder="Name / ARR band" />
+                    <Field label="LinkedIn or resume link">
+                      <input
+                        value={form.link}
+                        onChange={set('link')}
+                        className={inputCls}
+                        placeholder="linkedin.com/in/…"
+                      />
                     </Field>
                   </div>
                   <div className="mt-5">
-                    <Field label="What are you seeing?">
+                    <Field label="Anything else?">
                       <textarea
-                        required
                         value={form.message}
                         onChange={set('message')}
-                        rows={5}
+                        rows={4}
                         className={`${inputCls} resize-none`}
-                        placeholder="The situation, the levers you suspect, the timeline."
+                        placeholder="Optional — what you're looking for, what you've worked on."
                       />
                     </Field>
                   </div>
@@ -238,10 +206,10 @@ function ContactPage() {
                     disabled={status === 'sending'}
                     className="btn btn-light mt-7 w-full disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {status === 'sending' ? 'Sending…' : 'Send enquiry'}
+                    {status === 'sending' ? 'Sending…' : 'Send application'}
                   </button>
                   <p className="mt-4 text-center font-sans text-[0.78rem] text-canvas/40">
-                    Goes straight to our team. We reply within two business days.
+                    We keep this on file and reach out when it fits.
                   </p>
                 </form>
               )}

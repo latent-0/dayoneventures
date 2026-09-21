@@ -604,6 +604,11 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link to="/start-a-project" className="link-line" activeOptions={{ exact: false }}>
+                Start a project
+              </Link>
+            </li>
           </FooterCol>
 
           <FooterCol title="Framework">

@@ -115,6 +115,9 @@ function PlatformPage() {
             <h2 className="text-display-lg mt-6 max-w-2xl">
               Two engines, one accountability.
             </h2>
+            <Link to="/start-a-project" className="arrow-link link-line mt-5 inline-block font-sans text-[0.95rem] text-gold-deep">
+              Have a project in mind? Start a project <span className="arrow">→</span>
+            </Link>
           </Reveal>
           <div className="mt-14 grid gap-8 lg:grid-cols-2">
             {COMPANIES.map((c, i) => (

@@ -10,14 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CareersRouteImport } from './routes/careers'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FirmRouteImport } from './routes/firm'
 import { Route as FrameworkRouteImport } from './routes/framework'
 import { Route as PlatformRouteImport } from './routes/platform'
+import { Route as StartAProjectRouteImport } from './routes/start-a-project'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -40,43 +47,78 @@ const PlatformRoute = PlatformRouteImport.update({
   path: '/platform',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StartAProjectRoute = StartAProjectRouteImport.update({
+  id: '/start-a-project',
+  path: '/start-a-project',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/firm': typeof FirmRoute
   '/framework': typeof FrameworkRoute
   '/platform': typeof PlatformRoute
+  '/start-a-project': typeof StartAProjectRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/firm': typeof FirmRoute
   '/framework': typeof FrameworkRoute
   '/platform': typeof PlatformRoute
+  '/start-a-project': typeof StartAProjectRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/firm': typeof FirmRoute
   '/framework': typeof FrameworkRoute
   '/platform': typeof PlatformRoute
+  '/start-a-project': typeof StartAProjectRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact' | '/firm' | '/framework' | '/platform'
+  fullPaths:
+    | '/'
+    | '/careers'
+    | '/contact'
+    | '/firm'
+    | '/framework'
+    | '/platform'
+    | '/start-a-project'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/firm' | '/framework' | '/platform'
-  id: '__root__' | '/' | '/contact' | '/firm' | '/framework' | '/platform'
+  to:
+    | '/'
+    | '/careers'
+    | '/contact'
+    | '/firm'
+    | '/framework'
+    | '/platform'
+    | '/start-a-project'
+  id:
+    | '__root__'
+    | '/'
+    | '/careers'
+    | '/contact'
+    | '/firm'
+    | '/framework'
+    | '/platform'
+    | '/start-a-project'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
   FirmRoute: typeof FirmRoute
   FrameworkRoute: typeof FrameworkRoute
   PlatformRoute: typeof PlatformRoute
+  StartAProjectRoute: typeof StartAProjectRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -86,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -116,15 +165,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/start-a-project': {
+      id: '/start-a-project'
+      path: '/start-a-project'
+      fullPath: '/start-a-project'
+      preLoaderRoute: typeof StartAProjectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
   FirmRoute: FirmRoute,
   FrameworkRoute: FrameworkRoute,
   PlatformRoute: PlatformRoute,
+  StartAProjectRoute: StartAProjectRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
