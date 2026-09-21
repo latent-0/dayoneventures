@@ -96,9 +96,9 @@ function ContactPage() {
                 <div>
                   <p className="eyebrow text-gold-soft">Office</p>
                   <address className="mt-2 font-sans text-[0.98rem] not-italic leading-relaxed text-canvas/65">
-                    11 Broadway, Suite 615
+                    2 Virginia Rd
                     <br />
-                    New York, NY
+                    Glassboro, NJ 08028
                   </address>
                 </div>
                 <div>

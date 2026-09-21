@@ -30,9 +30,10 @@ const orgSchema = {
   slogan: 'Value, built from dayone.',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '11 Broadway, Suite 615',
-    addressLocality: 'New York',
-    addressRegion: 'NY',
+    streetAddress: '2 Virginia Rd',
+    addressLocality: 'Glassboro',
+    addressRegion: 'NJ',
+    postalCode: '08028',
     addressCountry: 'US',
   },
   areaServed: [{ '@type': 'Country', name: 'United States' }],

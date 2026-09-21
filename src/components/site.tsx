@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { ArrowUpRight } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 /* ------------------------------------------------------------------ */
@@ -549,6 +550,38 @@ export function Header() {
 /*  Footer                                                             */
 /* ------------------------------------------------------------------ */
 
+const FOOTER_FRAMEWORK = FRAMEWORK_MENU.map((p) => ({ label: p.name, hash: `phase-${p.code}` }))
+
+const LOCATIONS = [
+  {
+    entity: 'DayOne Venture Partners, LLC',
+    country: 'USA',
+    address: '2 Virginia Rd, Glassboro, NJ 08028',
+  },
+]
+
+function FooterCol({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div>
+      <p
+        className="font-sans font-semibold text-canvas/85"
+        style={{ fontSize: '0.72rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}
+      >
+        {title}
+      </p>
+      <ul className="mt-5 space-y-3 font-sans text-[0.92rem] text-canvas/65">{children}</ul>
+    </div>
+  )
+}
+
+function LinkedInGlyph({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.98 1.83-2.02 3.77-2.02 4.03 0 4.78 2.53 4.78 5.83V21h-4v-5.9c0-1.4-.03-3.2-2-3.2-2 0-2.3 1.5-2.3 3.1V21h-4V9Z" />
+    </svg>
+  )
+}
+
 export function Footer() {
   return (
     <footer className="relative overflow-hidden bg-night text-canvas">
@@ -561,77 +594,108 @@ export function Footer() {
         <Rosette size={480} color="var(--color-gold-soft)" />
       </div>
       <Container width="wide" className="relative py-16 sm:py-20">
-        <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
-          <div>
-            <Wordmark tone="light" />
-            <p className="mt-6 max-w-sm font-sans text-[0.95rem] leading-relaxed text-canvas/60">
-              A private equity operating firm. We build equity value in lower
-              middle market software companies, and we do the operating work
-              ourselves from dayone of ownership.
-            </p>
-            <p className="equation mt-6 text-[0.82rem] text-gold-soft">
-              Equity Value = Earnings × Multiple
-            </p>
-          </div>
-
-          <div>
-            <p className="eyebrow text-gold-soft">Navigate</p>
-            <ul className="mt-5 space-y-3 font-sans text-[0.95rem] text-canvas/70">
-              {NAV.map((item) => (
-                <li key={item.to}>
-                  <Link to={item.to} className="link-line" activeOptions={{ exact: false }}>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link to="/firm" hash="thesis" className="link-line">
-                  Thesis
+        {/* Link columns */}
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-4">
+          <FooterCol title="Navigate">
+            {NAV.map((item) => (
+              <li key={item.to}>
+                <Link to={item.to} className="link-line" activeOptions={{ exact: false }}>
+                  {item.label}
                 </Link>
               </li>
-              <li>
-                <Link to="/framework" hash="fit" className="link-line">
-                  Where we fit
+            ))}
+          </FooterCol>
+
+          <FooterCol title="Framework">
+            {FOOTER_FRAMEWORK.map((p) => (
+              <li key={p.hash}>
+                <Link to="/framework" hash={p.hash} className="link-line">
+                  {p.label}
                 </Link>
               </li>
-            </ul>
-          </div>
+            ))}
+          </FooterCol>
 
-          <div>
-            <p className="eyebrow text-gold-soft">Enquiries</p>
-            <ul className="mt-5 space-y-3 font-sans text-[0.95rem] text-canvas/70">
-              <li>
-                <a href="mailto:contact@dayoneventurepartners.com" className="link-line">
-                  contact@dayoneventurepartners.com
-                </a>
-              </li>
-              <li>
-                <a href="tel:+18566538460" className="link-line">
-                  +1 856-653-8460
-                </a>
-              </li>
-              <li>
+          <FooterCol title="Platform">
+            {PLATFORM_MENU.map((c) => (
+              <li key={c.name}>
                 <a
-                  href="https://www.linkedin.com/"
+                  href={c.href}
                   target="_blank"
-                  rel="me noopener noreferrer"
-                  className="link-line"
+                  rel="noopener noreferrer"
+                  className="link-line inline-flex items-center gap-1"
                 >
-                  LinkedIn
+                  {c.name}
+                  <ArrowUpRight size={13} className="shrink-0 text-canvas/40" />
                 </a>
               </li>
-            </ul>
-            <address className="mt-4 font-sans text-[0.9rem] not-italic leading-relaxed text-canvas/50">
-              2 Virginia Rd, Glassboro, NJ 08028
-            </address>
-            <Link to="/contact" className="btn btn-light mt-6 !py-2.5 !px-5 text-[0.82rem]">
-              Talk to us
-            </Link>
-          </div>
+            ))}
+          </FooterCol>
+
+          <FooterCol title="Enquiries">
+            <li>
+              <a href="mailto:contact@dayoneventurepartners.com" className="link-line">
+                contact@dayoneventurepartners.com
+              </a>
+            </li>
+            <li>
+              <a href="tel:+18566538460" className="link-line">
+                +1 856-653-8460
+              </a>
+            </li>
+            <li className="pt-2">
+              <Link to="/contact" className="btn btn-light !py-2.5 !px-5 text-[0.82rem]">
+                Talk to us
+              </Link>
+            </li>
+          </FooterCol>
         </div>
 
         <hr className="mt-14 border-0 border-t border-night-line" />
-        <div className="mt-6 flex flex-col justify-between gap-3 font-sans text-[0.78rem] text-canvas/45 sm:flex-row">
+
+        {/* Wordmark + stay connected */}
+        <div className="mt-8 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+          <Wordmark tone="light" />
+          <div
+            className="flex flex-wrap items-center gap-x-3 gap-y-2 font-sans text-canvas/60"
+            style={{ fontSize: '0.78rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}
+          >
+            <span className="text-canvas/40">Stay connected:</span>
+            <Link to="/contact" className="link-line text-canvas/80">
+              Contact us
+            </Link>
+            <span className="text-canvas/25">|</span>
+            <a
+              href="https://www.linkedin.com/"
+              target="_blank"
+              rel="me noopener noreferrer"
+              aria-label="Dayone Ventures on LinkedIn"
+              className="flex h-7 w-7 items-center justify-center rounded-full border border-night-line text-canvas/70 transition-colors hover:border-gold-soft hover:text-gold-soft"
+            >
+              <LinkedInGlyph />
+            </a>
+          </div>
+        </div>
+
+        {/* Locations */}
+        <div className="mt-8 flex flex-col gap-2 border-t border-night-line pt-8 sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-2">
+          {LOCATIONS.map((loc) => (
+            <div key={loc.entity} className="flex items-baseline gap-2 font-sans text-[0.82rem] text-canvas/50">
+              <span
+                className="shrink-0 text-canvas/35"
+                style={{ fontSize: '0.68rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}
+              >
+                {loc.country}
+              </span>
+              <address className="not-italic">
+                {loc.entity} — {loc.address}
+              </address>
+            </div>
+          ))}
+        </div>
+
+        <hr className="mt-8 border-0 border-t border-night-line" />
+        <div className="mt-6 flex flex-col justify-between gap-3 font-sans text-[0.75rem] text-canvas/45 sm:flex-row">
           <p>
             DayOne Venture Partners, LLC &middot; USA &middot; Audiencetech
             Intelligence Private Limited
