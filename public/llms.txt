@@ -1,0 +1,35 @@
+# Dayone Ventures
+
+> Dayone Ventures is an operating-partner private equity firm for lower middle market software companies (roughly $5M to $40M ARR). It buys control or structured positions in software businesses and grows what they are worth by operating them directly from day one of ownership, using a four-phase value-creation framework and a captive technology group.
+
+Dayone Ventures is run as DayOne Venture Partners, LLC (USA), part of Audiencetech Intelligence Private Limited. The thesis: equity value = earnings x multiple, and both are engineered during the holding period rather than hoped for at exit. Unlike traditional firms that underwrite a deal and hand a plan to management, Dayone Ventures owns the operating work itself. Roughly two-thirds of private equity value creation now comes from operating the business better rather than from leverage or entry multiple, and that operating work is the entire business Dayone Ventures is in.
+
+## Key facts
+- Type: Operating-partner private equity firm for software.
+- Focus: Lower middle market software and tech-enabled businesses, about $5M to $40M ARR, sponsor-backed or founder-held, with at least two operating levers to pull.
+- Thesis: Equity Value = Earnings x Multiple. Both are engineered from day one of ownership.
+- Office: 2 Virginia Rd, Glassboro, NJ 08028, USA.
+- Email: contact@dayoneventurepartners.com. Phone: +1 856-653-8460.
+- Website: https://www.dayoneventurepartners.com
+
+## Pages
+- [Home](https://www.dayoneventurepartners.com/): The thesis, the operating model, and how value gets built from day one.
+- [Framework](https://www.dayoneventurepartners.com/framework): The four-phase value-creation framework in full.
+- [Platform](https://www.dayoneventurepartners.com/platform): The captive technology group that rebuilds product, data and cost.
+- [The Firm](https://www.dayoneventurepartners.com/firm): The thesis and operating principles behind the firm.
+- [Contact](https://www.dayoneventurepartners.com/contact): Start with an operating diagnostic rather than a pitch.
+
+## The four-phase framework
+- Diagnose: A structured operating diagnostic across six dimensions (go-to-market efficiency, gross margin and unit economics, net revenue retention, pricing and packaging, product defensibility, cost and automation) that ranks every intervention by what it is worth. Output: the value map.
+- Operate: Deploy three engines at once and run them in-house. Revenue engine (GTM build, pricing and packaging, expansion motion), cost engine (offshore delivery, AI automation, vendor consolidation), product engine (AI-native workflows, data moat, retention loops). Output: EBITDA, rebuilt.
+- Compound: Make growth durable and diligence-proof. Push net revenue retention past 115%, harden the moat, and keep growth and profitability in balance (Rule of 40). Output: a business that compounds.
+- Realize: Build the exit years early. Assemble the investor-grade data room and the buyer narrative so the process confirms a story the numbers already tell. Output: a higher multiple.
+
+## How we partner
+- Buyouts: Acquire control of a single software business and run the value-creation plan from close to exit.
+- Minority and partnerships: A structured position paired with hands-on operating for founders and holders who want the engine without a full sale.
+- Operating partner: One operating standard applied across a sponsor's software portfolio.
+
+## The Dayone group (captive build capability)
+- Dayone Technologies (https://day1tech.com): A technology operating partner that puts senior execution leadership inside the business and ships the platforms the plan depends on. 100+ production platforms delivered across AI and ML, data, APIs, digital twins and security.
+- DayoneX (https://dayonex.org): Enterprise AI and platform systems. Ships production intelligent systems (machine learning, computer vision, natural language processing, digital twins, MLOps) with delivery teams across India and the United States.

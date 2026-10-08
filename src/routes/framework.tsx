@@ -44,6 +44,27 @@ function FrameworkPage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            '@id': 'https://www.dayoneventurepartners.com/framework#list',
+            name: 'The Dayone Ventures value-creation framework',
+            description:
+              'A four-phase operating system for private equity value creation: Diagnose, Operate, Compound, Realize.',
+            itemListOrder: 'https://schema.org/ItemListOrderAscending',
+            numberOfItems: PHASES.length,
+            itemListElement: PHASES.map((p, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              name: p.title,
+              description: p.lead,
+            })),
+          }),
+        }}
+      />
       {/* Header */}
       <section className="border-b border-line bg-canvas">
         <Container className="pt-24 pb-16 sm:pt-32 sm:pb-20">
@@ -78,8 +99,9 @@ function FrameworkPage() {
       {/* Pinned four-phase progression */}
       <FrameworkScroll />
 
-      {/* Detail grid — all phases laid flat for reference */}
-      <section className="border-t border-line bg-canvas">
+      {/* Detail grid — all phases laid flat for reference. Desktop only:
+          on mobile the FrameworkScroll already renders the same flat list. */}
+      <section className="hidden border-t border-line bg-canvas md:block">
         <Container className="py-24 sm:py-32">
           <Reveal>
             <Eyebrow>In full</Eyebrow>

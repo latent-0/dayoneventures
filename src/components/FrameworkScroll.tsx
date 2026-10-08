@@ -85,31 +85,24 @@ export function FrameworkScroll() {
     setActive(i < 0 ? 0 : i)
   })
 
+  // Reduced motion: one fully scrollable stacked list, no pinning.
   if (reduce) {
-    return (
-      <section className="border-t border-line bg-canvas">
-        <Container width="wide" className="py-24">
-          <Eyebrow>The framework</Eyebrow>
-          <h2 className="text-display-lg mt-6">Diagnose. Operate. Compound. Realize.</h2>
-          <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
-            {PHASES.map((p) => (
-              <div key={p.n} className="bg-canvas p-8">
-                <PhaseHead p={p} />
-                <PhaseItems p={p} />
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-    )
+    return <FlatFramework />
   }
 
   return (
-    <section
-      ref={ref}
-      className="relative border-t border-line bg-canvas text-ink"
-      style={{ height: `${PHASES.length * 100}vh` }}
-    >
+    <>
+      {/* Mobile / small screens: stacked and fully scrollable (the pinned
+          layout cannot fit the stepper + panel inside one viewport). */}
+      <FlatFramework className="md:hidden" />
+
+      {/* Desktop: the pinned, scroll-driven stepper. Hidden on mobile, so its
+          tall height never creates unreachable, clipped scroll space there. */}
+      <section
+        ref={ref}
+        className="relative hidden border-t border-line bg-canvas text-ink md:block"
+        style={{ height: `${PHASES.length * 100}vh` }}
+      >
       <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden">
         {/* soft warm wash */}
         <div
@@ -177,6 +170,30 @@ export function FrameworkScroll() {
           </div>
         </Container>
       </div>
+      </section>
+    </>
+  )
+}
+
+/* Fully scrollable stacked layout — used on mobile and for reduced motion. */
+function FlatFramework({ className = '' }: { className?: string }) {
+  return (
+    <section className={`border-t border-line bg-canvas ${className}`}>
+      <Container width="wide" className="py-20 sm:py-28">
+        <Eyebrow>The framework</Eyebrow>
+        <h2 className="text-display-md mt-6">Four phases. One operating standard.</h2>
+        <div className="mt-10 space-y-6">
+          {PHASES.map((p) => (
+            <div key={p.n} className="rounded-2xl border border-line bg-paper p-6 sm:p-8">
+              <PhaseHead p={p} />
+              <p className="mt-4 font-sans text-[1rem] leading-relaxed text-ink-60">
+                {p.lead}
+              </p>
+              <PhaseItems p={p} />
+            </div>
+          ))}
+        </div>
+      </Container>
     </section>
   )
 }

@@ -127,6 +127,9 @@ function HeroCopy({ tone }: { tone: 'dark' | 'light' }) {
   const heading = tone === 'light' ? 'var(--color-canvas)' : 'var(--color-ink)'
   const linkCls =
     tone === 'light' ? 'text-canvas hover:text-canvas' : 'text-ink-80 hover:text-ink'
+  // Only the dark base layer is the semantic <h1>. The clipped light layer is a
+  // decorative visual duplicate, so it renders as a div (no duplicate heading).
+  const HeadingTag: any = tone === 'dark' ? motion.h1 : motion.div
 
   return (
     <Container
@@ -145,7 +148,7 @@ function HeroCopy({ tone }: { tone: 'dark' | 'light' }) {
           Private equity · Operating partners
         </motion.p>
 
-        <motion.h1
+        <HeadingTag
           variants={lineMask}
           initial="hidden"
           animate="visible"
@@ -165,7 +168,14 @@ function HeroCopy({ tone }: { tone: 'dark' | 'light' }) {
               </motion.span>
             </span>
           ))}
-        </motion.h1>
+          {tone === 'dark' && (
+            <span className="sr-only">
+              {' '}
+              Dayone Ventures is an operating-partner private equity firm for
+              lower middle market software companies.
+            </span>
+          )}
+        </HeadingTag>
 
         <motion.div
           custom={1.15}

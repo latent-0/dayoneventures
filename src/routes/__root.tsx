@@ -26,7 +26,9 @@ const orgSchema = {
   disambiguatingDescription:
     'Dayone Ventures is a private equity operating firm that partners with sponsors and management teams of lower-middle-market ($5M–$40M ARR) software and tech-enabled businesses to expand EBITDA and multiple through a four-phase value-creation framework: Diagnose, Operate, Compound, Realize.',
   url: SITE.url,
+  legalName: 'DayOne Venture Partners, LLC',
   email: 'contact@dayoneventurepartners.com',
+  telephone: '+1-856-653-8460',
   slogan: 'Value, built from dayone.',
   address: {
     '@type': 'PostalAddress',
@@ -54,6 +56,84 @@ const orgSchema = {
     'Cost and margin transformation',
     'Exit preparation',
   ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'sales',
+    email: 'contact@dayoneventurepartners.com',
+    telephone: '+1-856-653-8460',
+    areaServed: 'US',
+    availableLanguage: ['en'],
+  },
+  sameAs: [
+    'https://day1tech.com',
+    'https://dayonex.org',
+    'https://www.linkedin.com/',
+  ],
+  parentOrganization: {
+    '@type': 'Organization',
+    name: 'Audiencetech Intelligence Private Limited',
+  },
+  subOrganization: [
+    {
+      '@type': 'Organization',
+      name: 'Dayone Technologies',
+      url: 'https://day1tech.com',
+      description:
+        'Technology operating partner that embeds senior execution leadership and ships AI, data, API, digital-twin and security platforms.',
+    },
+    {
+      '@type': 'Organization',
+      name: 'DayoneX',
+      url: 'https://dayonex.org',
+      description:
+        'Enterprise AI and platform systems: machine learning, computer vision, NLP, digital twins and MLOps, with delivery across India and the United States.',
+    },
+  ],
+}
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${SITE.url}/#service`,
+  name: 'Operating-partner private equity for software',
+  serviceType: 'Private equity value creation',
+  provider: { '@id': `${SITE.url}/#organization` },
+  areaServed: { '@type': 'Country', name: 'United States' },
+  description:
+    'Dayone Ventures buys lower middle market software companies and grows equity value by operating them directly, using a four-phase framework: Diagnose, Operate, Compound, Realize.',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'How we partner',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Buyouts',
+          description:
+            'Acquire control of a single software business and run the value-creation plan from close to exit.',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Minority and partnerships',
+          description:
+            'A structured position paired with hands-on operating for founders and holders who want the engine without a full sale.',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Operating partner',
+          description:
+            "One operating standard applied across a sponsor's software portfolio.",
+        },
+      },
+    ],
+  },
 }
 
 const websiteSchema = {
@@ -141,6 +221,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
         />
       </head>
       <body>
