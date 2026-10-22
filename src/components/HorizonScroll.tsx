@@ -24,7 +24,7 @@ const BEATS: Beat[] = [
 const bg =
   'radial-gradient(130% 120% at 50% 10%, #241a10 0%, #17120c 55%, #0e0a06 100%)'
 
-export function HorizonScroll() {
+export function HorizonScroll({ beats = BEATS }: { beats?: Beat[] } = {}) {
   const reduce = useReducedMotion()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -32,14 +32,14 @@ export function HorizonScroll() {
     offset: ['start start', 'end end'],
   })
 
-  const n = BEATS.length
+  const n = beats.length
   const x = useTransform(scrollYProgress, [0, 1], ['0vw', `-${(n - 1) * 100}vw`])
 
   if (reduce) {
     return (
       <section className="text-canvas" style={{ background: bg }}>
         <div className="mx-auto max-w-4xl space-y-16 px-6 py-28">
-          {BEATS.map((b, i) => (
+          {beats.map((b, i) => (
             <div key={i}>
               <p className="eyebrow eyebrow-light">{`0${i + 1} · ${b.chapter}`}</p>
               <h2
@@ -70,7 +70,7 @@ export function HorizonScroll() {
 
         {/* horizontal track */}
         <motion.div style={{ x }} className="flex h-full w-max">
-          {BEATS.map((b, i) => (
+          {beats.map((b, i) => (
             <Panel key={i} index={i} total={n} beat={b} progress={scrollYProgress} />
           ))}
         </motion.div>

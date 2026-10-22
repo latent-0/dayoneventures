@@ -17,6 +17,10 @@ export const Route = createFileRoute('/contact')({
 
 const EMAIL = 'contact@dayoneventurepartners.com'
 
+// Founders looking to build a product belong on the studio page, not in the
+// PE lead pipeline — selecting this routes them there (like the careers option).
+const STUDIO_ROLE = 'Founder, looking for a product team'
+
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 const EMPTY: LeadInput = {
@@ -45,6 +49,10 @@ function ContactPage() {
   const onRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value === CAREER_ROLE) {
       navigate({ to: '/careers' })
+      return
+    }
+    if (e.target.value === STUDIO_ROLE) {
+      navigate({ to: '/studio' })
       return
     }
     setForm((f) => ({ ...f, role: e.target.value }))
@@ -203,6 +211,9 @@ function ContactPage() {
                         {LEAD_ROLES.map((r) => (
                           <option key={r} value={r} style={{ color: '#16130c' }}>{r}</option>
                         ))}
+                        <option value={STUDIO_ROLE} style={{ color: '#16130c' }}>
+                          — {STUDIO_ROLE}
+                        </option>
                         <option value={CAREER_ROLE} style={{ color: '#16130c' }}>
                           — {CAREER_ROLE}
                         </option>

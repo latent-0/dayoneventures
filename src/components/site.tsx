@@ -145,6 +145,7 @@ export function Wordmark({
 const NAV = [
   { to: '/framework', label: 'Framework' },
   { to: '/platform', label: 'Platform' },
+  { to: '/studio', label: 'Studio' },
   { to: '/firm', label: 'The Firm' },
   { to: '/contact', label: 'Contact' },
 ] as const
@@ -337,6 +338,15 @@ export function Header() {
               </Link>
             </div>
 
+            <Link
+              to="/studio"
+              onClick={closeMenus}
+              className={`font-sans text-[0.82rem] tracking-wide transition-colors ${linkCls}`}
+              activeProps={{ className: light ? 'text-canvas' : 'text-ink' }}
+              activeOptions={{ exact: false }}
+            >
+              Studio
+            </Link>
             <Link
               to="/firm"
               className={`font-sans text-[0.82rem] tracking-wide transition-colors ${linkCls}`}

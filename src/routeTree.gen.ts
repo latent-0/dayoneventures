@@ -16,6 +16,7 @@ import { Route as FirmRouteImport } from './routes/firm'
 import { Route as FrameworkRouteImport } from './routes/framework'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as StartAProjectRouteImport } from './routes/start-a-project'
+import { Route as StudioRouteImport } from './routes/studio'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,11 @@ const StartAProjectRoute = StartAProjectRouteImport.update({
   path: '/start-a-project',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/framework': typeof FrameworkRoute
   '/platform': typeof PlatformRoute
   '/start-a-project': typeof StartAProjectRoute
+  '/studio': typeof StudioRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/framework': typeof FrameworkRoute
   '/platform': typeof PlatformRoute
   '/start-a-project': typeof StartAProjectRoute
+  '/studio': typeof StudioRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/framework': typeof FrameworkRoute
   '/platform': typeof PlatformRoute
   '/start-a-project': typeof StartAProjectRoute
+  '/studio': typeof StudioRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/framework'
     | '/platform'
     | '/start-a-project'
+    | '/studio'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/framework'
     | '/platform'
     | '/start-a-project'
+    | '/studio'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/framework'
     | '/platform'
     | '/start-a-project'
+    | '/studio'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +131,7 @@ export interface RootRouteChildren {
   FrameworkRoute: typeof FrameworkRoute
   PlatformRoute: typeof PlatformRoute
   StartAProjectRoute: typeof StartAProjectRoute
+  StudioRoute: typeof StudioRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StartAProjectRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -183,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   FrameworkRoute: FrameworkRoute,
   PlatformRoute: PlatformRoute,
   StartAProjectRoute: StartAProjectRoute,
+  StudioRoute: StudioRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

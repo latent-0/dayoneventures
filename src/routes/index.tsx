@@ -65,6 +65,7 @@ function Home() {
       <FrameworkScroll />
       <PlatformTeaser />
       <Engagements />
+      <StudioTeaser />
       <TheMoat />
       <WhereWeFit />
       <Faq />
@@ -124,6 +125,32 @@ function TheThesis() {
 /* ---------------------------------------------------------------- */
 /*  Engagements                                                      */
 /* ---------------------------------------------------------------- */
+
+function StudioTeaser() {
+  return (
+    <section className="border-t border-line bg-canvas">
+      <Container className="py-16 sm:py-20">
+        <Reveal>
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="max-w-2xl">
+              <Eyebrow>For founders</Eyebrow>
+              <h2 className="mt-4 font-display text-ink" style={{ fontSize: 'clamp(1.6rem,2.8vw,2.3rem)', fontWeight: 500 }}>
+                Building a product? We build teams.
+              </h2>
+              <p className="mt-4 font-sans text-[1.05rem] leading-relaxed text-ink-60">
+                Dayone Venture Studio gives funded founders a dedicated product
+                team. Month to month, with working demos every week.
+              </p>
+            </div>
+            <Link to="/studio" className="arrow-link link-line shrink-0 font-sans text-[0.95rem] text-gold-deep">
+              See the studio <span className="arrow">→</span>
+            </Link>
+          </div>
+        </Reveal>
+      </Container>
+    </section>
+  )
+}
 
 function Engagements() {
   return (

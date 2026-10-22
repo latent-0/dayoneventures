@@ -223,7 +223,170 @@ export const submitProject = createServerFn({ method: 'POST' })
   })
 
 /* ==================================================================== */
-/*  3. Careers — candidates routed off the business-lead forms (/careers) */
+/*  3. Venture Studio — founder scoping-call enquiries (/studio)         */
+/* ==================================================================== */
+
+export const STUDIO_ROLES = [
+  'Founder or co-founder',
+  'Product or business lead',
+  'Investor or advisor',
+  'Other',
+] as const
+
+export const STUDIO_STAGES = ['Idea', 'Prototype', 'Live with customers'] as const
+
+export const STUDIO_FUNDING = [
+  'Pre-seed',
+  'Seed',
+  'Series A or later',
+  'Not yet funded',
+] as const
+
+export const STUDIO_CTO = ['Yes', 'No', 'Small team'] as const
+
+/** Campaign + referrer attribution, captured client-side on page load. */
+export type LeadAttribution = {
+  utm_source: string
+  utm_medium: string
+  utm_campaign: string
+  utm_content: string
+  referrer: string
+  landing: string
+}
+
+export const EMPTY_ATTRIBUTION: LeadAttribution = {
+  utm_source: '',
+  utm_medium: '',
+  utm_campaign: '',
+  utm_content: '',
+  referrer: '',
+  landing: '',
+}
+
+export type StudioInput = LeadAttribution & {
+  name: string
+  email: string
+  company: string
+  website: string
+  country: string
+  role: string
+  stage: string
+  funding: string
+  cto: string
+  message: string
+  /** Honeypot — real users never fill this. */
+  company_website: string
+}
+
+function parseAttribution(d: Record<string, unknown>): LeadAttribution {
+  return {
+    utm_source: str(d.utm_source, 200),
+    utm_medium: str(d.utm_medium, 200),
+    utm_campaign: str(d.utm_campaign, 200),
+    utm_content: str(d.utm_content, 200),
+    referrer: str(d.referrer, 500),
+    landing: str(d.landing, 500),
+  }
+}
+
+function parseStudio(raw: unknown): StudioInput {
+  const d = (raw ?? {}) as Record<string, unknown>
+  const s: StudioInput = {
+    name: str(d.name, 200),
+    email: str(d.email, 320),
+    company: str(d.company, 200),
+    website: str(d.website, 300),
+    country: str(d.country, 120),
+    role: str(d.role, 100),
+    stage: str(d.stage, 100),
+    funding: str(d.funding, 100),
+    cto: str(d.cto, 100),
+    message: multiline(d.message, 5000),
+    company_website: str(d.company_website, 200),
+    ...parseAttribution(d),
+  }
+
+  if (!s.name) throw new Error('Please add your name.')
+  if (!EMAIL_RE.test(s.email)) throw new Error('Please add a valid work email.')
+  if (!s.country) throw new Error('Please add your country.')
+  if (!s.message) throw new Error('Please add a short note about what you are building.')
+
+  return s
+}
+
+export const submitStudio = createServerFn({ method: 'POST' })
+  .validator(parseStudio)
+  .handler(async ({ data }): Promise<SubmitResult> => {
+    if (data.company_website) return { ok: true } // honeypot
+
+    const ok = await deliver(
+      'studio',
+      {
+        name: data.name,
+        email: data.email,
+        company: data.company,
+        website: data.website,
+        country: data.country,
+        role: data.role,
+        stage: data.stage,
+        funding: data.funding,
+        cto: data.cto,
+        message: data.message,
+        utm_source: data.utm_source,
+        utm_medium: data.utm_medium,
+        utm_campaign: data.utm_campaign,
+        utm_content: data.utm_content,
+        referrer: data.referrer,
+        landing: data.landing,
+      },
+      'dayoneventurepartners.com studio form',
+    )
+    return ok ? { ok: true } : { ok: false, error: GENERIC_ERROR }
+  })
+
+/* ==================================================================== */
+/*  4. Studio checklist — the lead-magnet email gate (/studio#checklist) */
+/* ==================================================================== */
+
+export type ChecklistInput = LeadAttribution & {
+  email: string
+  company_website: string
+}
+
+function parseChecklist(raw: unknown): ChecklistInput {
+  const d = (raw ?? {}) as Record<string, unknown>
+  const c: ChecklistInput = {
+    email: str(d.email, 320),
+    company_website: str(d.company_website, 200),
+    ...parseAttribution(d),
+  }
+  if (!EMAIL_RE.test(c.email)) throw new Error('Please add a valid email.')
+  return c
+}
+
+export const submitChecklist = createServerFn({ method: 'POST' })
+  .validator(parseChecklist)
+  .handler(async ({ data }): Promise<SubmitResult> => {
+    if (data.company_website) return { ok: true } // honeypot
+
+    const ok = await deliver(
+      'checklist',
+      {
+        email: data.email,
+        utm_source: data.utm_source,
+        utm_medium: data.utm_medium,
+        utm_campaign: data.utm_campaign,
+        utm_content: data.utm_content,
+        referrer: data.referrer,
+        landing: data.landing,
+      },
+      'dayoneventurepartners.com studio checklist',
+    )
+    return ok ? { ok: true } : { ok: false, error: GENERIC_ERROR }
+  })
+
+/* ==================================================================== */
+/*  5. Careers — candidates routed off the business-lead forms (/careers) */
 /* ==================================================================== */
 
 export type ApplicationInput = {
