@@ -57,6 +57,24 @@ var TABS = {
       'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'referrer', 'landing', 'source',
     ],
   },
+  studio_lead: {
+    sheetName: 'Studio leads',
+    headers: [
+      'Submitted at', 'Score', 'Tier', 'Name', 'Email', 'LinkedIn', 'Role', 'Answer',
+      '90-day win', 'Start', 'Score breakdown',
+      'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'Referrer', 'Landing page', 'Source',
+    ],
+    fields: [
+      'submittedAt', 'score', 'tier', 'name', 'email', 'linkedin', 'role', 'answer',
+      'win', 'startWhen', 'breakdown',
+      'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'referrer', 'landing', 'source',
+    ],
+  },
+  studio_more: {
+    sheetName: 'Studio follow-ups',
+    headers: ['Submitted at', 'Email', 'Funding', 'Who else decides', 'Source'],
+    fields: ['submittedAt', 'email', 'funding', 'deciders', 'source'],
+  },
   checklist: {
     sheetName: 'Checklist downloads',
     headers: [
@@ -83,6 +101,8 @@ var SUBJECTS = {
   project: 'New project enquiry',
   application: 'New application',
   studio: 'New studio enquiry',
+  studio_lead: 'New studio lead',
+  studio_more: 'Studio lead added detail',
   checklist: 'New checklist download',
 };
 

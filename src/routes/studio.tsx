@@ -6,10 +6,11 @@ import { seo } from '../lib/seo'
 import {
   submitStudio,
   submitChecklist,
+  submitStudioMore,
   STUDIO_ROLES,
-  STUDIO_STAGES,
-  STUDIO_FUNDING,
-  STUDIO_CTO,
+  STUDIO_QUESTIONS,
+  STUDIO_START,
+  type StudioRole,
   EMPTY_ATTRIBUTION,
   type StudioInput,
   type LeadAttribution,
@@ -678,32 +679,44 @@ function Faq() {
 }
 
 /* ---------------------------------------------------------------- */
-/*  Contact form (#contact)                                        */
+/*  Contact form (#contact): five quick steps, one qualifier         */
 /* ---------------------------------------------------------------- */
 
 const STUDIO_EMPTY: Omit<StudioInput, keyof LeadAttribution> = {
+  role: '',
+  answer: '',
+  win: '',
+  startWhen: '',
   name: '',
   email: '',
-  company: '',
-  website: '',
-  country: '',
-  role: STUDIO_ROLES[0],
-  stage: STUDIO_STAGES[0],
-  funding: STUDIO_FUNDING[0],
-  cto: STUDIO_CTO[0],
-  message: '',
+  linkedin: '',
   company_website: '',
 }
+
+type FormStep = 0 | 1 | 2 | 3 | 4
+const FORM_STEPS = 5
 
 function ContactForm({ attribution }: { attribution: LeadAttribution }) {
   const navigate = useNavigate()
   const [form, setForm] = useState(STUDIO_EMPTY)
+  const [step, setStep] = useState<FormStep>(0)
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [more, setMore] = useState({ funding: '', deciders: '' })
+  const [moreSending, setMoreSending] = useState(false)
 
-  const set = (k: keyof typeof form) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-  ) => setForm((f) => ({ ...f, [k]: e.target.value }))
+  const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) =>
+    setForm((f) => ({ ...f, [k]: v }))
+  const next = () => setStep((s) => Math.min(s + 1, FORM_STEPS - 1) as FormStep)
+  const back = () => setStep((s) => Math.max(s - 1, 0) as FormStep)
+  // Pick a card, then move on after a beat so the selection registers.
+  const pick = (k: 'role' | 'answer' | 'startWhen', v: string) => {
+    setForm((f) => ({ ...f, [k]: v, ...(k === 'role' && v !== f.role ? { answer: '' } : {}) }))
+    setTimeout(next, 160)
+  }
+
+  const question = STUDIO_QUESTIONS[form.role as StudioRole]
+  const winWords = form.win.trim().split(/\s+/).filter(Boolean).length
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -712,10 +725,8 @@ function ContactForm({ attribution }: { attribution: LeadAttribution }) {
     setErrorMsg('')
     try {
       const res = await submitStudio({ data: { ...form, ...attribution } })
-      if (res.ok) {
-        // Lead sent — go to /thank-you, where the Google Ads conversion fires.
-        navigate({ to: '/thank-you' })
-      } else {
+      if (res.ok) setStatus('sent')
+      else {
         setStatus('error')
         setErrorMsg(res.error)
       }
@@ -727,6 +738,20 @@ function ContactForm({ attribution }: { attribution: LeadAttribution }) {
     }
   }
 
+  // The lead is already in. This step only adds detail, then goes to /thank-you,
+  // where the Google Ads conversion fires.
+  const finish = async (withMore: boolean) => {
+    if (withMore && (more.funding.trim() || more.deciders.trim())) {
+      setMoreSending(true)
+      try {
+        await submitStudioMore({ data: { email: form.email, ...more, company_website: '' } })
+      } catch {
+        /* the lead is already captured; never block the thank-you page */
+      }
+    }
+    navigate({ to: '/thank-you' })
+  }
+
   return (
     <section id="contact" className="scroll-mt-24 border-t border-line bg-night text-canvas">
       <Container className="py-24 sm:py-32">
@@ -736,9 +761,9 @@ function ContactForm({ attribution }: { attribution: LeadAttribution }) {
               <Eyebrow className="eyebrow-light">Contact</Eyebrow>
               <h2 className="text-display-lg mt-6 text-canvas">Book a free scoping call.</h2>
               <p className="mt-6 max-w-md font-sans text-[1.05rem] leading-relaxed text-canvas/65">
-                Tell us what you are building. We will reply within one business
-                day with times for a 30-minute call, and a one-page plan
-                afterwards.
+                Five quick questions, about a minute. We will reply within one
+                business day with times for a 30-minute call, and a one-page
+                plan afterwards.
               </p>
             </Reveal>
             <Reveal delay={120}>
@@ -753,131 +778,262 @@ function ContactForm({ attribution }: { attribution: LeadAttribution }) {
 
           <div className="md:col-span-6 md:col-start-7">
             <Reveal delay={90}>
-              {status === 'sent' ? (
-                <div className="rounded-2xl border border-night-line bg-night-2 p-7 sm:p-9">
-                  <p className="eyebrow text-gold-soft">Received</p>
-                  <h3 className="mt-4 font-display text-canvas" style={{ fontSize: '1.6rem' }}>
-                    Thank you. Your note is with us.
-                  </h3>
-                  <p className="mt-4 font-sans text-[0.98rem] leading-relaxed text-canvas/65">
-                    We read every enquiry ourselves and will reply to{' '}
-                    <span className="text-canvas">{form.email}</span> within one
-                    business day, usually sooner.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setForm(STUDIO_EMPTY)
-                      setStatus('idle')
-                    }}
-                    className="btn btn-light mt-7"
-                  >
-                    Send another
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={onSubmit} className="relative rounded-2xl border border-night-line bg-night-2 p-7 sm:p-9">
-                  <div aria-hidden className="pointer-events-none absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden opacity-0">
-                    <label>
-                      Company website
-                      <input type="text" tabIndex={-1} autoComplete="off" value={form.company_website} onChange={set('company_website')} />
-                    </label>
-                  </div>
-
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <Field label="Your name">
-                      <input required value={form.name} onChange={set('name')} className={inputCls} placeholder="Jane Founder" />
-                    </Field>
-                    <Field label="Work email">
-                      <input required type="email" value={form.email} onChange={set('email')} className={inputCls} placeholder="jane@startup.com" />
-                    </Field>
-                  </div>
-                  <div className="mt-5 grid gap-5 sm:grid-cols-2">
-                    <Field label="Company">
-                      <input value={form.company} onChange={set('company')} className={inputCls} placeholder="Startup name" />
-                    </Field>
-                    <Field label="Website (optional)">
-                      <input value={form.website} onChange={set('website')} className={inputCls} placeholder="yourstartup.com" />
-                    </Field>
-                  </div>
-                  <div className="mt-5 grid gap-5 sm:grid-cols-2">
-                    <Field label="Country">
-                      <input required value={form.country} onChange={set('country')} className={inputCls} placeholder="United States" />
-                    </Field>
-                    <Field label="You are a">
-                      <select value={form.role} onChange={set('role')} className={inputCls}>
-                        {STUDIO_ROLES.map((r) => (
-                          <option key={r} value={r} style={{ color: '#16130c' }}>{r}</option>
-                        ))}
-                      </select>
-                    </Field>
-                  </div>
-                  <div className="mt-5 grid gap-5 sm:grid-cols-2">
-                    <Field label="Stage">
-                      <select value={form.stage} onChange={set('stage')} className={inputCls}>
-                        {STUDIO_STAGES.map((r) => (
-                          <option key={r} value={r} style={{ color: '#16130c' }}>{r}</option>
-                        ))}
-                      </select>
-                    </Field>
-                    <Field label="Funding">
-                      <select value={form.funding} onChange={set('funding')} className={inputCls}>
-                        {STUDIO_FUNDING.map((r) => (
-                          <option key={r} value={r} style={{ color: '#16130c' }}>{r}</option>
-                        ))}
-                      </select>
-                    </Field>
-                  </div>
-                  <div className="mt-5">
-                    <Field label="Do you have a CTO or engineering team?">
-                      <select value={form.cto} onChange={set('cto')} className={inputCls}>
-                        {STUDIO_CTO.map((r) => (
-                          <option key={r} value={r} style={{ color: '#16130c' }}>{r}</option>
-                        ))}
-                      </select>
-                    </Field>
-                  </div>
-                  <div className="mt-5">
-                    <Field label="What are you building?">
-                      <textarea
-                        required
-                        value={form.message}
-                        onChange={set('message')}
-                        rows={5}
-                        className={`${inputCls} resize-none`}
-                        placeholder="The product, who it is for, and when you need it."
-                      />
-                    </Field>
-                  </div>
-
-                  {status === 'error' && (
-                    <p className="mt-5 rounded-md border border-red-500/40 bg-red-500/10 px-4 py-3 font-sans text-[0.85rem] text-red-200">
-                      {errorMsg}
+              <div className="relative rounded-2xl border border-night-line bg-night-2 p-7 sm:p-9">
+                {status === 'sent' ? (
+                  <div>
+                    <p className="eyebrow text-gold-soft">Received</p>
+                    <h3 className="mt-4 font-display text-canvas" style={{ fontSize: '1.6rem' }}>
+                      Thank you. Your note is with us.
+                    </h3>
+                    <p className="mt-4 font-sans text-[0.98rem] leading-relaxed text-canvas/65">
+                      We will reply to <span className="text-canvas">{form.email}</span>{' '}
+                      within one business day. Want to speed things up? Add a
+                      little more, or skip this.
                     </p>
-                  )}
+                    <div className="mt-6 space-y-5">
+                      <Field label="Funding and cheque size (optional)">
+                        <input
+                          value={more.funding}
+                          onChange={(e) => setMore((m) => ({ ...m, funding: e.target.value }))}
+                          className={inputCls}
+                          placeholder="e.g. Seed, $2M raised"
+                        />
+                      </Field>
+                      <Field label="Who else decides? (optional)">
+                        <input
+                          value={more.deciders}
+                          onChange={(e) => setMore((m) => ({ ...m, deciders: e.target.value }))}
+                          className={inputCls}
+                          placeholder="e.g. My co-founder and our lead investor"
+                        />
+                      </Field>
+                    </div>
+                    <div className="mt-7 flex flex-wrap items-center gap-4">
+                      <button
+                        type="button"
+                        disabled={moreSending}
+                        onClick={() => finish(true)}
+                        className="btn btn-light disabled:cursor-not-allowed disabled:opacity-60"
+                      >
+                        {moreSending ? 'Sending…' : 'Add this'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => finish(false)}
+                        className="link-line font-sans text-[0.85rem] text-canvas/55"
+                      >
+                        Skip
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <form onSubmit={onSubmit}>
+                    <div aria-hidden className="pointer-events-none absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden opacity-0">
+                      <label>
+                        Company website
+                        <input
+                          type="text"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          value={form.company_website}
+                          onChange={(e) => set('company_website', e.target.value)}
+                        />
+                      </label>
+                    </div>
 
-                  <button
-                    type="submit"
-                    disabled={status === 'sending'}
-                    className="btn btn-light mt-7 w-full disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    {status === 'sending' ? 'Sending…' : 'Send enquiry'}
-                  </button>
-                  <p className="mt-4 text-center font-sans text-[0.78rem] text-canvas/40">
-                    Goes straight to our team. We reply within one business day.
-                    By sending this you agree to our{' '}
-                    <Link to="/privacy" className="link-line text-canvas/60">
-                      privacy policy
-                    </Link>
-                    .
-                  </p>
-                </form>
-              )}
+                    <div className="mb-8">
+                      <div className="flex items-center justify-between font-sans text-[0.72rem] uppercase tracking-[0.12em] text-canvas/40">
+                        <span>Step {step + 1} of {FORM_STEPS}</span>
+                      </div>
+                      <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-night-line">
+                        <div
+                          className="h-full rounded-full bg-gold-soft transition-all duration-300 ease-out"
+                          style={{ width: `${((step + 1) / FORM_STEPS) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {step === 0 && (
+                      <FormStepBox title="Who are you?">
+                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                          {STUDIO_ROLES.map((r) => (
+                            <Choice key={r} active={form.role === r} onClick={() => pick('role', r)}>
+                              {r}
+                            </Choice>
+                          ))}
+                        </div>
+                      </FormStepBox>
+                    )}
+
+                    {step === 1 && question && (
+                      <FormStepBox title={question.question} onBack={back}>
+                        <div className="grid grid-cols-2 gap-3">
+                          {question.options.map((o) => (
+                            <Choice
+                              key={o.label}
+                              active={form.answer === o.label}
+                              onClick={() => pick('answer', o.label)}
+                            >
+                              {o.label}
+                            </Choice>
+                          ))}
+                        </div>
+                      </FormStepBox>
+                    )}
+
+                    {step === 2 && (
+                      <FormStepBox
+                        title="What would a win look like in 90 days?"
+                        sub="A sentence or two. The more specific, the better we can prepare."
+                        onBack={back}
+                      >
+                        <textarea
+                          autoFocus
+                          value={form.win}
+                          onChange={(e) => set('win', e.target.value)}
+                          rows={4}
+                          maxLength={2000}
+                          className={`${inputCls} resize-none`}
+                          placeholder="e.g. A working MVP in the hands of 20 paying customers."
+                        />
+                        <NextBtn disabled={winWords < 3} onClick={next} />
+                      </FormStepBox>
+                    )}
+
+                    {step === 3 && (
+                      <FormStepBox title="When do you want to start?" onBack={back}>
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                          {STUDIO_START.map((o) => (
+                            <Choice
+                              key={o.label}
+                              active={form.startWhen === o.label}
+                              onClick={() => pick('startWhen', o.label)}
+                            >
+                              {o.label}
+                            </Choice>
+                          ))}
+                        </div>
+                      </FormStepBox>
+                    )}
+
+                    {step === 4 && (
+                      <FormStepBox title="Where should we reply?" onBack={back}>
+                        <div className="grid gap-5 sm:grid-cols-2">
+                          <Field label="Your name">
+                            <input required value={form.name} onChange={(e) => set('name', e.target.value)} className={inputCls} placeholder="Jane Founder" />
+                          </Field>
+                          <Field label="Work email">
+                            <input required type="email" value={form.email} onChange={(e) => set('email', e.target.value)} className={inputCls} placeholder="jane@startup.com" />
+                          </Field>
+                        </div>
+                        <div className="mt-5">
+                          <Field label="LinkedIn (optional)">
+                            <input
+                              type="url"
+                              value={form.linkedin}
+                              onChange={(e) => set('linkedin', e.target.value)}
+                              className={inputCls}
+                              placeholder="linkedin.com/in/yourname"
+                            />
+                          </Field>
+                        </div>
+
+                        {status === 'error' && (
+                          <p className="mt-5 rounded-md border border-red-500/40 bg-red-500/10 px-4 py-3 font-sans text-[0.85rem] text-red-200">
+                            {errorMsg}
+                          </p>
+                        )}
+
+                        <button
+                          type="submit"
+                          disabled={status === 'sending' || !form.name || !form.email}
+                          className="btn btn-light mt-7 w-full disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          {status === 'sending' ? 'Sending…' : 'Send enquiry'}
+                        </button>
+                        <p className="mt-4 text-center font-sans text-[0.78rem] text-canvas/40">
+                          Goes straight to our team. We reply within one business day.
+                          By sending this you agree to our{' '}
+                          <Link to="/privacy" className="link-line text-canvas/60">
+                            privacy policy
+                          </Link>
+                          .
+                        </p>
+                      </FormStepBox>
+                    )}
+                  </form>
+                )}
+              </div>
             </Reveal>
           </div>
         </div>
       </Container>
     </section>
+  )
+}
+
+function FormStepBox({
+  title,
+  sub,
+  onBack,
+  children,
+}: {
+  title: string
+  sub?: string
+  onBack?: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <div key={title}>
+      <h3 className="font-display text-canvas" style={{ fontSize: 'clamp(1.35rem,2.6vw,1.75rem)', fontWeight: 600 }}>
+        {title}
+      </h3>
+      {sub && <p className="mt-2 font-sans text-[0.9rem] text-canvas/55">{sub}</p>}
+      <div className="mt-6">{children}</div>
+      {onBack && (
+        <button type="button" onClick={onBack} className="link-line mt-7 font-sans text-[0.82rem] text-canvas/45">
+          ← Back
+        </button>
+      )}
+    </div>
+  )
+}
+
+function Choice({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean
+  onClick: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`rounded-xl border px-4 py-3.5 text-left font-sans text-[0.9rem] leading-snug transition-colors ${
+        active
+          ? 'border-gold-soft bg-gold-soft/10 text-canvas'
+          : 'border-night-line bg-night text-canvas/75 hover:border-canvas/25'
+      }`}
+    >
+      {children}
+    </button>
+  )
+}
+
+function NextBtn({ onClick, disabled }: { onClick: () => void; disabled?: boolean }) {
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={onClick}
+      className="btn btn-light mt-6 disabled:cursor-not-allowed disabled:opacity-40"
+    >
+      Continue →
+    </button>
   )
 }
 

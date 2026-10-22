@@ -223,26 +223,68 @@ export const submitProject = createServerFn({ method: 'POST' })
   })
 
 /* ==================================================================== */
-/*  3. Venture Studio — founder scoping-call enquiries (/studio)         */
+/*  3. Venture Studio — qualifying intake (/studio#contact)              */
 /* ==================================================================== */
 
-export const STUDIO_ROLES = [
-  'Founder or co-founder',
-  'Product or business lead',
-  'Investor or advisor',
-  'Other',
+export const STUDIO_ROLES = ['Founder', 'LP', 'GP or emerging manager', 'VC', 'PE'] as const
+export type StudioRole = (typeof STUDIO_ROLES)[number]
+
+/** One tailored question per role. `points` is the role-answer score (0-3). */
+export const STUDIO_QUESTIONS: Record<
+  StudioRole,
+  { question: string; options: { label: string; points: number }[] }
+> = {
+  Founder: {
+    question: 'What is stuck?',
+    options: [
+      { label: 'No technical team', points: 3 },
+      { label: 'Need to ship in 90 days', points: 3 },
+      { label: 'Team too slow', points: 2 },
+      { label: 'Other', points: 1 },
+    ],
+  },
+  LP: {
+    question: 'What are you looking for?',
+    options: [
+      { label: 'Emerging managers', points: 2 },
+      { label: 'Co-investments', points: 2 },
+      { label: 'Direct deals', points: 2 },
+    ],
+  },
+  'GP or emerging manager': {
+    question: 'Biggest gap?',
+    options: [
+      { label: 'Finding LPs', points: 2 },
+      { label: 'Deal flow', points: 2 },
+      { label: 'Portfolio support', points: 3 },
+      { label: 'Operations', points: 3 },
+    ],
+  },
+  VC: {
+    question: 'Where do your portfolio companies struggle?',
+    options: [
+      { label: 'Shipping', points: 3 },
+      { label: 'Hiring', points: 2 },
+      { label: 'AI', points: 3 },
+      { label: 'Other', points: 1 },
+    ],
+  },
+  PE: {
+    question: 'Where do you need operating help?',
+    options: [
+      { label: 'Technology', points: 3 },
+      { label: 'AI', points: 3 },
+      { label: 'Margins', points: 2 },
+      { label: 'Integration', points: 2 },
+    ],
+  },
+}
+
+export const STUDIO_START = [
+  { label: 'This month', points: 3 },
+  { label: 'Next quarter', points: 1 },
+  { label: 'Exploring', points: 0 },
 ] as const
-
-export const STUDIO_STAGES = ['Idea', 'Prototype', 'Live with customers'] as const
-
-export const STUDIO_FUNDING = [
-  'Pre-seed',
-  'Seed',
-  'Series A or later',
-  'Not yet funded',
-] as const
-
-export const STUDIO_CTO = ['Yes', 'No', 'Small team'] as const
 
 /** Campaign + referrer attribution, captured client-side on page load. */
 export type LeadAttribution = {
@@ -264,16 +306,13 @@ export const EMPTY_ATTRIBUTION: LeadAttribution = {
 }
 
 export type StudioInput = LeadAttribution & {
+  role: string
+  answer: string
+  win: string
+  startWhen: string
   name: string
   email: string
-  company: string
-  website: string
-  country: string
-  role: string
-  stage: string
-  funding: string
-  cto: string
-  message: string
+  linkedin: string
   /** Honeypot — real users never fill this. */
   company_website: string
 }
@@ -289,27 +328,71 @@ function parseAttribution(d: Record<string, unknown>): LeadAttribution {
   }
 }
 
+const FREE_EMAIL_DOMAINS = new Set([
+  'gmail.com', 'googlemail.com', 'yahoo.com', 'yahoo.co.in', 'ymail.com', 'outlook.com',
+  'hotmail.com', 'live.com', 'msn.com', 'icloud.com', 'me.com', 'aol.com', 'proton.me',
+  'protonmail.com', 'gmx.com', 'mail.com', 'zoho.com', 'rediffmail.com',
+])
+
+const LINKEDIN_PROFILE_RE = /^(https?:\/\/)?([a-z]{2,3}\.)?linkedin\.com\/in\/[^\s/]{3,}/i
+
+/**
+ * Lead score, 0-11:
+ *   role answer 0-3 + 90-day answer 0-3 + start date 0-3
+ *   + 1 for a company email domain + 1 for a LinkedIn profile URL.
+ * Tier: Hot 8+, Warm 5-7, Cold below 5.
+ */
+export function scoreStudio(
+  s: Pick<StudioInput, 'role' | 'answer' | 'win' | 'startWhen' | 'email' | 'linkedin'>,
+) {
+  const role = (STUDIO_QUESTIONS as Record<string, (typeof STUDIO_QUESTIONS)[StudioRole]>)[s.role]
+  const rolePts = role?.options.find((o) => o.label === s.answer)?.points ?? 0
+
+  // The 90-day answer: length shows effort, a number or a concrete verb shows a real target.
+  const words = s.win.split(/\s+/).filter(Boolean).length
+  let winPts = words >= 15 ? 2 : words >= 6 ? 1 : 0
+  if (
+    words >= 6 &&
+    (/\d/.test(s.win) ||
+      /\b(ship|launch|mvp|hire|raise|release|migrate|close|revenue|customers?)\b/i.test(s.win))
+  ) {
+    winPts += 1
+  }
+  winPts = Math.min(winPts, 3)
+
+  const startPts = STUDIO_START.find((o) => o.label === s.startWhen)?.points ?? 0
+  const domain = s.email.split('@')[1]?.toLowerCase() ?? ''
+  const emailPts = domain && !FREE_EMAIL_DOMAINS.has(domain) ? 1 : 0
+  const linkedinPts = LINKEDIN_PROFILE_RE.test(s.linkedin) ? 1 : 0
+
+  const score = rolePts + winPts + startPts + emailPts + linkedinPts
+  const tier = score >= 8 ? 'Hot' : score >= 5 ? 'Warm' : 'Cold'
+  return {
+    score,
+    tier,
+    breakdown: `role ${rolePts}/3, 90-day ${winPts}/3, start ${startPts}/3, email ${emailPts}/1, linkedin ${linkedinPts}/1`,
+  }
+}
+
 function parseStudio(raw: unknown): StudioInput {
   const d = (raw ?? {}) as Record<string, unknown>
   const s: StudioInput = {
+    role: str(d.role, 100),
+    answer: str(d.answer, 200),
+    win: multiline(d.win, 2000),
+    startWhen: str(d.startWhen, 100),
     name: str(d.name, 200),
     email: str(d.email, 320),
-    company: str(d.company, 200),
-    website: str(d.website, 300),
-    country: str(d.country, 120),
-    role: str(d.role, 100),
-    stage: str(d.stage, 100),
-    funding: str(d.funding, 100),
-    cto: str(d.cto, 100),
-    message: multiline(d.message, 5000),
+    linkedin: str(d.linkedin, 300),
     company_website: str(d.company_website, 200),
     ...parseAttribution(d),
   }
 
+  if (!(STUDIO_ROLES as readonly string[]).includes(s.role)) throw new Error('Please choose who you are.')
+  if (!s.win) throw new Error('Please tell us what a win looks like in 90 days.')
+  if (!s.startWhen) throw new Error('Please choose when you want to start.')
   if (!s.name) throw new Error('Please add your name.')
   if (!EMAIL_RE.test(s.email)) throw new Error('Please add a valid work email.')
-  if (!s.country) throw new Error('Please add your country.')
-  if (!s.message) throw new Error('Please add a short note about what you are building.')
 
   return s
 }
@@ -319,19 +402,20 @@ export const submitStudio = createServerFn({ method: 'POST' })
   .handler(async ({ data }): Promise<SubmitResult> => {
     if (data.company_website) return { ok: true } // honeypot
 
+    const { score, tier, breakdown } = scoreStudio(data)
     const ok = await deliver(
-      'studio',
+      'studio_lead',
       {
         name: data.name,
         email: data.email,
-        company: data.company,
-        website: data.website,
-        country: data.country,
+        linkedin: data.linkedin,
         role: data.role,
-        stage: data.stage,
-        funding: data.funding,
-        cto: data.cto,
-        message: data.message,
+        answer: data.answer,
+        win: data.win,
+        startWhen: data.startWhen,
+        score: String(score),
+        tier,
+        breakdown,
         utm_source: data.utm_source,
         utm_medium: data.utm_medium,
         utm_campaign: data.utm_campaign,
@@ -340,6 +424,40 @@ export const submitStudio = createServerFn({ method: 'POST' })
         landing: data.landing,
       },
       'dayoneventurepartners.com studio form',
+    )
+    return ok ? { ok: true } : { ok: false, error: GENERIC_ERROR }
+  })
+
+/* Optional "Tell us more" follow-up, shown after the main form is in. */
+
+export type StudioMoreInput = {
+  email: string
+  funding: string
+  deciders: string
+  company_website: string
+}
+
+function parseStudioMore(raw: unknown): StudioMoreInput {
+  const d = (raw ?? {}) as Record<string, unknown>
+  const m: StudioMoreInput = {
+    email: str(d.email, 320),
+    funding: str(d.funding, 300),
+    deciders: str(d.deciders, 500),
+    company_website: str(d.company_website, 200),
+  }
+  if (!EMAIL_RE.test(m.email)) throw new Error('Missing email.')
+  if (!m.funding && !m.deciders) throw new Error('Nothing to add.')
+  return m
+}
+
+export const submitStudioMore = createServerFn({ method: 'POST' })
+  .validator(parseStudioMore)
+  .handler(async ({ data }): Promise<SubmitResult> => {
+    if (data.company_website) return { ok: true } // honeypot
+    const ok = await deliver(
+      'studio_more',
+      { email: data.email, funding: data.funding, deciders: data.deciders },
+      'dayoneventurepartners.com studio tell-us-more',
     )
     return ok ? { ok: true } : { ok: false, error: GENERIC_ERROR }
   })
