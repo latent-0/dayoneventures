@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { HorizonScroll } from '../components/HorizonScroll'
+import { StudioHero, StudioStat, StudioAperture, StudioSteps } from '../components/StudioScroll'
 import { seo } from '../lib/seo'
 import {
   submitStudio,
@@ -91,12 +92,19 @@ const FIT = [
   { k: 'Domain expert, or founder-led', v: 'You know your field: a doctor reshaping the patient journey, a CPA or CFA rebuilding financial workflows. You bring the domain, we bring the product team.' },
 ]
 
+const STAT = {
+  big: '100+',
+  caption: 'production platforms delivered since 2016. Your pod is backed by the group that built them.',
+  secondary: [
+    { value: '70%', line: 'repeat business. Founders come back for the next product.' },
+    { value: '10+', line: 'countries where we have shipped products.' },
+  ],
+}
+
 const PROOF = [
   { k: 'Since 2016', v: 'Building products' },
-  { k: '100+', v: 'Production platforms delivered' },
-  { k: '10+', v: 'Countries' },
-  { k: '70%', v: 'Repeat business' },
   { k: '500,000+', v: 'Hours of code delivered' },
+  { k: 'India + US', v: 'Delivery teams' },
 ]
 
 const BUILT = [
@@ -223,8 +231,10 @@ function StudioPage() {
 
       <StudioHero />
       <HorizonScroll beats={BEATS} />
+      <StudioStat big={STAT.big} caption={STAT.caption} secondary={STAT.secondary} />
       <WhatYouGet />
-      <HowItWorks />
+      <StudioAperture />
+      <StudioSteps steps={STEPS} />
       <WhoItsFor />
       <WhyDayone />
       <Checklist attribution={attribution} />
@@ -232,69 +242,6 @@ function StudioPage() {
       <ContactForm attribution={attribution} />
       <CtaBand />
     </>
-  )
-}
-
-/* ---------------------------------------------------------------- */
-/*  Hero                                                            */
-/* ---------------------------------------------------------------- */
-
-function StudioHero() {
-  return (
-    <section className="relative overflow-hidden bg-night text-canvas">
-      {/* Muted background video */}
-      <video
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-        tabIndex={-1}
-      >
-        <source src="/studio-hero.mp4" type="video/mp4" />
-      </video>
-      {/* Darken the footage so the copy stays legible */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            'linear-gradient(180deg, rgba(14,10,6,0.78) 0%, rgba(14,10,6,0.6) 42%, rgba(14,10,6,0.86) 100%)',
-        }}
-      />
-      {/* Brand blobs, tinting the footage */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="blob blob-orange animate-blob" style={{ width: 620, height: 620, left: '-8%', top: '6%', opacity: 0.3, mixBlendMode: 'screen' }} />
-        <div className="blob blob-amber animate-blob" style={{ width: 480, height: 480, right: '-4%', top: '-14%', opacity: 0.22, mixBlendMode: 'screen', animationDelay: '5s' }} />
-      </div>
-      <Container className="relative pt-28 pb-20 sm:pt-36 sm:pb-28">
-        <Reveal>
-          <Eyebrow className="eyebrow-light">Venture studio · Dedicated product teams</Eyebrow>
-          <h1 className="text-display-xl mt-6 max-w-4xl text-canvas">
-            Your product team. From dayone.
-          </h1>
-          <p className="text-lead mt-8 max-w-2xl text-canvas/70">
-            A product manager, engineers, a designer and a tester, working only
-            on your product. Month to month. Working demos every week.
-          </p>
-        </Reveal>
-        <Reveal delay={120}>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <a href="#contact" className="btn btn-light arrow-link">
-              Book a free scoping call <span className="arrow">→</span>
-            </a>
-            <a href="#checklist" className="btn btn-ghost-light">
-              Get the 12-question checklist
-            </a>
-          </div>
-          <p className="mt-6 font-sans text-[0.85rem] text-canvas/45">
-            Backed by the Dayone group: 100+ production platforms delivered.
-          </p>
-        </Reveal>
-      </Container>
-    </section>
   )
 }
 
@@ -352,50 +299,6 @@ function WhatYouGet() {
             Basecamp.
           </p>
         </Reveal>
-      </Container>
-    </section>
-  )
-}
-
-/* ---------------------------------------------------------------- */
-/*  How it works                                                    */
-/* ---------------------------------------------------------------- */
-
-function HowItWorks() {
-  return (
-    <section className="border-t border-line bg-canvas-2">
-      <Container className="py-24 sm:py-32">
-        <div className="max-w-3xl">
-          <Reveal>
-            <Eyebrow>How it works</Eyebrow>
-            <h2 className="text-display-lg mt-6">Four steps. One working product.</h2>
-          </Reveal>
-        </div>
-        <div className="mt-14 space-y-6">
-          {STEPS.map((s, i) => (
-            <Reveal key={s.n} delay={i * 60}>
-              <div className="grid gap-5 rounded-2xl border border-line bg-paper p-7 sm:p-9 md:grid-cols-12 md:items-start">
-                <div className="md:col-span-4">
-                  <div className="flex items-baseline gap-4">
-                    <span className="font-mono text-[0.85rem] text-gold-deep">{s.n}</span>
-                    <h3 className="font-display text-ink" style={{ fontSize: 'clamp(1.6rem,2.4vw,2.1rem)', fontWeight: 500 }}>
-                      {s.title}
-                    </h3>
-                  </div>
-                  <span
-                    className="mt-4 inline-block rounded-full border border-line-strong px-3 py-1.5 font-sans text-gold-deep"
-                    style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}
-                  >
-                    Output · {s.output}
-                  </span>
-                </div>
-                <p className="font-sans text-[1rem] leading-relaxed text-ink-60 md:col-span-8">
-                  {s.body}
-                </p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
       </Container>
     </section>
   )
