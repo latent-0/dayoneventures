@@ -715,7 +715,12 @@ export function Footer() {
             DayOne Venture Partners, LLC &middot; USA &middot; Audiencetech
             Intelligence Private Limited
           </p>
-          <p className="tracking-wide">Diagnose · Operate · Compound · Realize</p>
+          <div className="flex items-center gap-5">
+            <Link to="/privacy" className="link-line">
+              Privacy
+            </Link>
+            <p className="tracking-wide">Diagnose · Operate · Compound · Realize</p>
+          </div>
         </div>
       </Container>
     </footer>

@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { HorizonScroll } from '../components/HorizonScroll'
@@ -605,7 +605,11 @@ function Checklist({ attribution }: { attribution: LeadAttribution }) {
               )}
               <p className="mt-3 text-center font-sans text-[0.78rem] text-ink-45">
                 One email with the checklist, then a short note from us.
-                Unsubscribe any time.
+                Unsubscribe any time. See our{' '}
+                <Link to="/privacy" className="link-line text-ink-60">
+                  privacy policy
+                </Link>
+                .
               </p>
             </form>
           )}
@@ -669,6 +673,7 @@ const STUDIO_EMPTY: Omit<StudioInput, keyof LeadAttribution> = {
 }
 
 function ContactForm({ attribution }: { attribution: LeadAttribution }) {
+  const navigate = useNavigate()
   const [form, setForm] = useState(STUDIO_EMPTY)
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
@@ -685,8 +690,8 @@ function ContactForm({ attribution }: { attribution: LeadAttribution }) {
     try {
       const res = await submitStudio({ data: { ...form, ...attribution } })
       if (res.ok) {
-        setStatus('sent')
-        fireConversion('studio_lead')
+        // Lead sent — go to /thank-you, where the Google Ads conversion fires.
+        navigate({ to: '/thank-you' })
       } else {
         setStatus('error')
         setErrorMsg(res.error)
@@ -837,6 +842,11 @@ function ContactForm({ attribution }: { attribution: LeadAttribution }) {
                   </button>
                   <p className="mt-4 text-center font-sans text-[0.78rem] text-canvas/40">
                     Goes straight to our team. We reply within one business day.
+                    By sending this you agree to our{' '}
+                    <Link to="/privacy" className="link-line text-canvas/60">
+                      privacy policy
+                    </Link>
+                    .
                   </p>
                 </form>
               )}

@@ -15,8 +15,10 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FirmRouteImport } from './routes/firm'
 import { Route as FrameworkRouteImport } from './routes/framework'
 import { Route as PlatformRouteImport } from './routes/platform'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as StartAProjectRouteImport } from './routes/start-a-project'
 import { Route as StudioRouteImport } from './routes/studio'
+import { Route as ThankYouRouteImport } from './routes/thank-you'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -48,6 +50,11 @@ const PlatformRoute = PlatformRouteImport.update({
   path: '/platform',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StartAProjectRoute = StartAProjectRouteImport.update({
   id: '/start-a-project',
   path: '/start-a-project',
@@ -58,6 +65,11 @@ const StudioRoute = StudioRouteImport.update({
   path: '/studio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ThankYouRoute = ThankYouRouteImport.update({
+  id: '/thank-you',
+  path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,8 +78,10 @@ export interface FileRoutesByFullPath {
   '/firm': typeof FirmRoute
   '/framework': typeof FrameworkRoute
   '/platform': typeof PlatformRoute
+  '/privacy': typeof PrivacyRoute
   '/start-a-project': typeof StartAProjectRoute
   '/studio': typeof StudioRoute
+  '/thank-you': typeof ThankYouRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -76,8 +90,10 @@ export interface FileRoutesByTo {
   '/firm': typeof FirmRoute
   '/framework': typeof FrameworkRoute
   '/platform': typeof PlatformRoute
+  '/privacy': typeof PrivacyRoute
   '/start-a-project': typeof StartAProjectRoute
   '/studio': typeof StudioRoute
+  '/thank-you': typeof ThankYouRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,8 +103,10 @@ export interface FileRoutesById {
   '/firm': typeof FirmRoute
   '/framework': typeof FrameworkRoute
   '/platform': typeof PlatformRoute
+  '/privacy': typeof PrivacyRoute
   '/start-a-project': typeof StartAProjectRoute
   '/studio': typeof StudioRoute
+  '/thank-you': typeof ThankYouRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -99,8 +117,10 @@ export interface FileRouteTypes {
     | '/firm'
     | '/framework'
     | '/platform'
+    | '/privacy'
     | '/start-a-project'
     | '/studio'
+    | '/thank-you'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -109,8 +129,10 @@ export interface FileRouteTypes {
     | '/firm'
     | '/framework'
     | '/platform'
+    | '/privacy'
     | '/start-a-project'
     | '/studio'
+    | '/thank-you'
   id:
     | '__root__'
     | '/'
@@ -119,8 +141,10 @@ export interface FileRouteTypes {
     | '/firm'
     | '/framework'
     | '/platform'
+    | '/privacy'
     | '/start-a-project'
     | '/studio'
+    | '/thank-you'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -130,8 +154,10 @@ export interface RootRouteChildren {
   FirmRoute: typeof FirmRoute
   FrameworkRoute: typeof FrameworkRoute
   PlatformRoute: typeof PlatformRoute
+  PrivacyRoute: typeof PrivacyRoute
   StartAProjectRoute: typeof StartAProjectRoute
   StudioRoute: typeof StudioRoute
+  ThankYouRoute: typeof ThankYouRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -178,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/start-a-project': {
       id: '/start-a-project'
       path: '/start-a-project'
@@ -192,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/thank-you': {
+      id: '/thank-you'
+      path: '/thank-you'
+      fullPath: '/thank-you'
+      preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -202,8 +242,10 @@ const rootRouteChildren: RootRouteChildren = {
   FirmRoute: FirmRoute,
   FrameworkRoute: FrameworkRoute,
   PlatformRoute: PlatformRoute,
+  PrivacyRoute: PrivacyRoute,
   StartAProjectRoute: StartAProjectRoute,
   StudioRoute: StudioRoute,
+  ThankYouRoute: ThankYouRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
