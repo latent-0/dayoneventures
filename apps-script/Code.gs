@@ -44,6 +44,30 @@ var TABS = {
     headers: ['Submitted at', 'Name', 'Email', 'Area of interest', 'Resume / LinkedIn', 'Message', 'Source'],
     fields: ['submittedAt', 'name', 'email', 'area', 'link', 'message', 'source'],
   },
+  studio: {
+    sheetName: 'Studio enquiries',
+    headers: [
+      'Submitted at', 'Name', 'Email', 'Company', 'Website', 'Country', 'Role',
+      'Stage', 'Funding', 'CTO / team', 'What building',
+      'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'Referrer', 'Landing page', 'Source',
+    ],
+    fields: [
+      'submittedAt', 'name', 'email', 'company', 'website', 'country', 'role',
+      'stage', 'funding', 'cto', 'message',
+      'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'referrer', 'landing', 'source',
+    ],
+  },
+  checklist: {
+    sheetName: 'Checklist downloads',
+    headers: [
+      'Submitted at', 'Email',
+      'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'Referrer', 'Landing page', 'Source',
+    ],
+    fields: [
+      'submittedAt', 'email',
+      'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'referrer', 'landing', 'source',
+    ],
+  },
 };
 
 // --- Notification email -----------------------------------------------------
@@ -58,6 +82,8 @@ var SUBJECTS = {
   lead: 'New site enquiry',
   project: 'New project enquiry',
   application: 'New application',
+  studio: 'New studio enquiry',
+  checklist: 'New checklist download',
 };
 
 function doPost(e) {
