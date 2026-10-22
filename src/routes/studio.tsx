@@ -241,9 +241,32 @@ function StudioPage() {
 function StudioHero() {
   return (
     <section className="relative overflow-hidden bg-night text-canvas">
+      {/* Muted background video */}
+      <video
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        tabIndex={-1}
+      >
+        <source src="/studio-hero.mp4" type="video/mp4" />
+      </video>
+      {/* Darken the footage so the copy stays legible */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(14,10,6,0.78) 0%, rgba(14,10,6,0.6) 42%, rgba(14,10,6,0.86) 100%)',
+        }}
+      />
+      {/* Brand blobs, tinting the footage */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="blob blob-orange animate-blob" style={{ width: 620, height: 620, left: '-8%', top: '6%', opacity: 0.4 }} />
-        <div className="blob blob-amber animate-blob" style={{ width: 480, height: 480, right: '-4%', top: '-14%', opacity: 0.28, animationDelay: '5s' }} />
+        <div className="blob blob-orange animate-blob" style={{ width: 620, height: 620, left: '-8%', top: '6%', opacity: 0.3, mixBlendMode: 'screen' }} />
+        <div className="blob blob-amber animate-blob" style={{ width: 480, height: 480, right: '-4%', top: '-14%', opacity: 0.22, mixBlendMode: 'screen', animationDelay: '5s' }} />
       </div>
       <Container className="relative pt-28 pb-20 sm:pt-36 sm:pb-28">
         <Reveal>
