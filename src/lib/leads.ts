@@ -282,8 +282,8 @@ export const STUDIO_QUESTIONS: Record<
 
 export const STUDIO_START = [
   { label: 'This month', points: 3 },
+  { label: 'Next month', points: 2 },
   { label: 'Next quarter', points: 1 },
-  { label: 'Exploring', points: 0 },
 ] as const
 
 /** Campaign + referrer attribution, captured client-side on page load. */
@@ -312,6 +312,8 @@ export type StudioInput = LeadAttribution & {
   startWhen: string
   name: string
   email: string
+  /** Country code + number, e.g. "+1 5551234567". */
+  phone: string
   linkedin: string
   /** Honeypot — real users never fill this. */
   company_website: string
@@ -383,6 +385,7 @@ function parseStudio(raw: unknown): StudioInput {
     startWhen: str(d.startWhen, 100),
     name: str(d.name, 200),
     email: str(d.email, 320),
+    phone: str(d.phone, 40),
     linkedin: str(d.linkedin, 300),
     company_website: str(d.company_website, 200),
     ...parseAttribution(d),
@@ -393,6 +396,8 @@ function parseStudio(raw: unknown): StudioInput {
   if (!s.startWhen) throw new Error('Please choose when you want to start.')
   if (!s.name) throw new Error('Please add your name.')
   if (!EMAIL_RE.test(s.email)) throw new Error('Please add a valid work email.')
+  const digits = s.phone.replace(/\D/g, '').length
+  if (digits < 8 || digits > 15) throw new Error('Please add a valid phone number.')
 
   return s
 }
@@ -408,6 +413,7 @@ export const submitStudio = createServerFn({ method: 'POST' })
       {
         name: data.name,
         email: data.email,
+        phone: data.phone,
         linkedin: data.linkedin,
         role: data.role,
         answer: data.answer,

@@ -4,6 +4,7 @@ import { Container, Eyebrow, Reveal } from '../components/site'
 import { HorizonScroll } from '../components/HorizonScroll'
 import { StudioHero, StudioStat, StudioAperture, StudioSteps } from '../components/StudioScroll'
 import { seo } from '../lib/seo'
+import { DIAL_CODES } from '../lib/countries'
 import {
   submitStudio,
   submitChecklist,
@@ -592,6 +593,7 @@ const STUDIO_EMPTY: Omit<StudioInput, keyof LeadAttribution> = {
   startWhen: '',
   name: '',
   email: '',
+  phone: '',
   linkedin: '',
   company_website: '',
 }
@@ -605,6 +607,8 @@ function ContactForm({ attribution }: { attribution: LeadAttribution }) {
   const [step, setStep] = useState<FormStep>(0)
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [dial, setDial] = useState(0) // index into DIAL_CODES
+  const [phoneNumber, setPhoneNumber] = useState('')
   const [more, setMore] = useState({ funding: '', deciders: '' })
   const [moreSending, setMoreSending] = useState(false)
 
@@ -627,7 +631,8 @@ function ContactForm({ attribution }: { attribution: LeadAttribution }) {
     setStatus('sending')
     setErrorMsg('')
     try {
-      const res = await submitStudio({ data: { ...form, ...attribution } })
+      const phone = `${DIAL_CODES[dial].code} ${phoneNumber.trim()}`
+      const res = await submitStudio({ data: { ...form, phone, ...attribution } })
       if (res.ok) setStatus('sent')
       else {
         setStatus('error')
@@ -830,6 +835,34 @@ function ContactForm({ attribution }: { attribution: LeadAttribution }) {
                           </Field>
                         </div>
                         <div className="mt-5">
+                          <Field label="Phone number">
+                            <div className="flex gap-2">
+                              <select
+                                aria-label="Country code"
+                                value={dial}
+                                onChange={(e) => setDial(Number(e.target.value))}
+                                className={`${inputCls} w-[7.5rem] shrink-0 px-3`}
+                              >
+                                {DIAL_CODES.map((c, i) => (
+                                  <option key={c.name} value={i} style={{ color: '#16130c' }}>
+                                    {c.flag} {c.code} {c.name}
+                                  </option>
+                                ))}
+                              </select>
+                              <input
+                                required
+                                type="tel"
+                                inputMode="tel"
+                                autoComplete="tel-national"
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value.replace(/[^\d\s()-]/g, ''))}
+                                className={inputCls}
+                                placeholder="555 123 4567"
+                              />
+                            </div>
+                          </Field>
+                        </div>
+                        <div className="mt-5">
                           <Field label="LinkedIn (optional)">
                             <input
                               type="url"
@@ -849,7 +882,7 @@ function ContactForm({ attribution }: { attribution: LeadAttribution }) {
 
                         <button
                           type="submit"
-                          disabled={status === 'sending' || !form.name || !form.email}
+                          disabled={status === 'sending' || !form.name || !form.email || phoneNumber.replace(/\D/g, '').length < 6}
                           className="btn btn-light mt-7 w-full disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           {status === 'sending' ? 'Sending…' : 'Send enquiry'}

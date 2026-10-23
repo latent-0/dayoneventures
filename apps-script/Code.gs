@@ -60,12 +60,12 @@ var TABS = {
   studio_lead: {
     sheetName: 'Studio leads',
     headers: [
-      'Submitted at', 'Score', 'Tier', 'Name', 'Email', 'LinkedIn', 'Role', 'Answer',
+      'Submitted at', 'Score', 'Tier', 'Name', 'Email', 'Phone', 'LinkedIn', 'Role', 'Answer',
       '90-day win', 'Start', 'Score breakdown',
       'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'Referrer', 'Landing page', 'Source',
     ],
     fields: [
-      'submittedAt', 'score', 'tier', 'name', 'email', 'linkedin', 'role', 'answer',
+      'submittedAt', 'score', 'tier', 'name', 'email', 'phone', 'linkedin', 'role', 'answer',
       'win', 'startWhen', 'breakdown',
       'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'referrer', 'landing', 'source',
     ],
