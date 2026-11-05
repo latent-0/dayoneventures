@@ -146,6 +146,7 @@ const NAV = [
   { to: '/framework', label: 'Framework' },
   { to: '/platform', label: 'Platform' },
   { to: '/studio', label: 'Studio' },
+  { to: '/otto', label: 'Otto' },
   { to: '/firm', label: 'The Firm' },
   { to: '/contact', label: 'Contact' },
 ] as const
@@ -287,7 +288,7 @@ export function Header() {
             <Wordmark tone={light ? 'light' : 'ink'} />
           </Link>
 
-          <nav className="hidden items-center gap-9 self-stretch md:flex">
+          <nav className="hidden items-center gap-6 self-stretch whitespace-nowrap md:flex lg:gap-9">
             {/* Framework — opens the mega-menu on hover */}
             <div
               className="relative flex h-full items-center"
@@ -348,6 +349,15 @@ export function Header() {
               Studio
             </Link>
             <Link
+              to="/otto"
+              onClick={closeMenus}
+              className={`font-sans text-[0.82rem] tracking-wide transition-colors ${linkCls}`}
+              activeProps={{ className: light ? 'text-canvas' : 'text-ink' }}
+              activeOptions={{ exact: false }}
+            >
+              Otto
+            </Link>
+            <Link
               to="/firm"
               className={`font-sans text-[0.82rem] tracking-wide transition-colors ${linkCls}`}
               activeProps={{ className: light ? 'text-canvas' : 'text-ink' }}
@@ -365,7 +375,7 @@ export function Header() {
             </Link>
             <Link
               to="/contact"
-              className={`btn !px-5 !py-2.5 text-[0.82rem] ${light ? 'btn-light' : 'btn-primary'}`}
+              className={`btn hidden !px-5 !py-2.5 text-[0.82rem] lg:inline-flex ${light ? 'btn-light' : 'btn-primary'}`}
             >
               Talk to us
             </Link>
