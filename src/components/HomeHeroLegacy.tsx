@@ -1,3 +1,6 @@
+/* BACKUP: the original landing hero (circle-portal over skyline photo).
+   Not in use. To restore: in src/routes/index.tsx import { HomeHeroLegacy }
+   from this file and render it in place of <OfficeWalkHero />. */
 import {
   motion,
   useScroll,
@@ -37,7 +40,7 @@ const fadeUp: Variants = {
   }),
 }
 
-export function HomeHero() {
+export function HomeHeroLegacy() {
   const reduce = useReducedMotion()
   const ref = useRef<HTMLDivElement>(null)
 

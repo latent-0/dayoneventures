@@ -14,6 +14,7 @@ import { Route as CareersRouteImport } from './routes/careers'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FirmRouteImport } from './routes/firm'
 import { Route as FrameworkRouteImport } from './routes/framework'
+import { Route as OfficeTourRouteImport } from './routes/office-tour'
 import { Route as OttoRouteImport } from './routes/otto'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -44,6 +45,11 @@ const FirmRoute = FirmRouteImport.update({
 const FrameworkRoute = FrameworkRouteImport.update({
   id: '/framework',
   path: '/framework',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OfficeTourRoute = OfficeTourRouteImport.update({
+  id: '/office-tour',
+  path: '/office-tour',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OttoRoute = OttoRouteImport.update({
@@ -83,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/firm': typeof FirmRoute
   '/framework': typeof FrameworkRoute
+  '/office-tour': typeof OfficeTourRoute
   '/otto': typeof OttoRoute
   '/platform': typeof PlatformRoute
   '/privacy': typeof PrivacyRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/firm': typeof FirmRoute
   '/framework': typeof FrameworkRoute
+  '/office-tour': typeof OfficeTourRoute
   '/otto': typeof OttoRoute
   '/platform': typeof PlatformRoute
   '/privacy': typeof PrivacyRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/firm': typeof FirmRoute
   '/framework': typeof FrameworkRoute
+  '/office-tour': typeof OfficeTourRoute
   '/otto': typeof OttoRoute
   '/platform': typeof PlatformRoute
   '/privacy': typeof PrivacyRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/firm'
     | '/framework'
+    | '/office-tour'
     | '/otto'
     | '/platform'
     | '/privacy'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/firm'
     | '/framework'
+    | '/office-tour'
     | '/otto'
     | '/platform'
     | '/privacy'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/firm'
     | '/framework'
+    | '/office-tour'
     | '/otto'
     | '/platform'
     | '/privacy'
@@ -165,6 +177,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   FirmRoute: typeof FirmRoute
   FrameworkRoute: typeof FrameworkRoute
+  OfficeTourRoute: typeof OfficeTourRoute
   OttoRoute: typeof OttoRoute
   PlatformRoute: typeof PlatformRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -208,6 +221,13 @@ declare module '@tanstack/react-router' {
       path: '/framework'
       fullPath: '/framework'
       preLoaderRoute: typeof FrameworkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/office-tour': {
+      id: '/office-tour'
+      path: '/office-tour'
+      fullPath: '/office-tour'
+      preLoaderRoute: typeof OfficeTourRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/otto': {
@@ -261,6 +281,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   FirmRoute: FirmRoute,
   FrameworkRoute: FrameworkRoute,
+  OfficeTourRoute: OfficeTourRoute,
   OttoRoute: OttoRoute,
   PlatformRoute: PlatformRoute,
   PrivacyRoute: PrivacyRoute,
