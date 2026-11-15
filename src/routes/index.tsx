@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo } from '../lib/seo'
-import { OfficeWalkHero } from '../components/OfficeWalkHero'
+import { HomeHero } from '../components/HomeHero'
+import { OfficeWalkSection } from '../components/OfficeWalkSection'
 import { HorizonScroll } from '../components/HorizonScroll'
 import { StatBlock } from '../components/StatBlock'
 import { ApertureReveal } from '../components/ApertureReveal'
@@ -57,7 +58,8 @@ function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <OfficeWalkHero />
+      <HomeHero />
+      <OfficeWalkSection />
       <HorizonScroll />
       <StatBlock />
       <TheThesis />
