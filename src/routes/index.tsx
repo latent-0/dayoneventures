@@ -2,7 +2,6 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { Container, Eyebrow, Reveal } from '../components/site'
 import { seo } from '../lib/seo'
 import { HomeHero } from '../components/HomeHero'
-import { OfficeWalkSection } from '../components/OfficeWalkSection'
 import { HorizonScroll } from '../components/HorizonScroll'
 import { StatBlock } from '../components/StatBlock'
 import { ApertureReveal } from '../components/ApertureReveal'
@@ -59,7 +58,6 @@ function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <HomeHero />
-      <OfficeWalkSection />
       <HorizonScroll />
       <StatBlock />
       <TheThesis />
